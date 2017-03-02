@@ -7,12 +7,12 @@
 // @include     https://www.mydealz.de/*
 // @include     https://userstyles.org/styles/128262/*
 // @include     https://www.amazon.*/gp/aw/*
-// @version     3.03.022
+// @version     3.03.023
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
-// @require     https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js
-// @require     http://openuserjs.org/src/libs/sizzle/GM_config.js
+// @require     https://cdn.rawgit.com/gnadelwartz/zepto-modules/468559e1/zepto-noajax-min.js
+// @require     https://cdn.rawgit.com/gnadelwartz/GM_config/0e4b1e4c/GM_config-min.js
 // @run-at      document-start
 // ==/UserScript==
 // ========== INIT EnstylerJS =====================================
@@ -728,7 +728,6 @@ function enComposeUpdateOpt() {
      // replace first & by ? and returns string
      myOptions = '?'+myOptions.slice(1);
     
-if (DEBUG) alert(myOptions);
      if(DEBUG) console.log(myOptions);
      return myOptions;
 } 
