@@ -27,9 +27,6 @@ const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
                      en: { discussion: 'All discussions', // only mydealz
                              enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
                              settings: 'Enstyler Settings' },
-                     nl: { discussion: 'All discussions', // only mydealz
-                             enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
-                             settings: 'Enstyler Settings' }   
                    }
 
 // translation for site specific stuff, ie section names or text to look for actual page
@@ -103,37 +100,6 @@ const enConfigLang = {
        howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
         options: 'Save options',
      optnotsave: 'Klick to save Options!'
-     },
-   nl: {
-       headline: 'Enstyler - Settings',
-       features: 'additonal features for Enstyler',
-      configcss: 'CSS Options',
-     userscript: 'Update Enstyler',
-        cookies: 'No Cookies',
-      injectcss: 'Inject CSS without Stylish',
-         config: 'Configuration',
-       navfixed: 'Display FIXED MainNav', 
-      userpopup: 'Show Popuop Userinfo', 
-          touch: 'Enable Touch Support', 
-         amazon: 'Amazon mobile redirect', 
-     dealaction: 'additional Deal actions', 
-         picker: 'Enable Page Picker', 
-       dealtime: 'Show real Deal Time', 
-        mintime: 'if older than Hours',
-        fixhtml: 'fix Deal Text HTML',
-      blacklist: 'Enable Black- / Whitelist',
-       examples: 'toilet, Bangood, @Admin',
-      blackcold: 'Blacklist if colder then', 
-          black: 'Blacklist - dealz, categories, @users, comments', 
-          white: 'Whitelist', 
-        unblack: 'Remove from blacklist:',
-           lang: 'Select Enstyler Language',
-           save: 'Save',
-          close: 'Close',
-       // Enstler CSS Config
-        savecss: 'Your selected CSS options',
-       howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
-        options: 'Save options',
-     optnotsave: 'Klick to save Options!'
+     }
      }
 //
