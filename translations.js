@@ -2,42 +2,43 @@
 // Version: 3.03.021
 // Date: 2016-03-02
 // (c) Gnadelwartz kay@rrr.de
+// Note: use HTML notation for special characters, i.e. ü -> &uuml;
+// Note: to reference an existing string in the same array use <EN-LANG:identifer>
 
 // translation for additional deal actions
 const enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
-                             po: 'Sag',            rem: 'Entf',                   ed: 'Bearb',        ma: 'Mail' },
-                       en: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
-                             po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' },
-                       nl: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
-                             po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' }
+                           po: 'Sag',            rem: 'Entf',                   ed: 'Bearb',        ma: 'Mail' }, // short link text for small screen
+                     en: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
+                           po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' }, // short link text for small screen
+                     nl: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
+                           po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' } // short link text for small screen
                      }
   
-// translation for deal time display
-const enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' },
+// translation for deal time display  // Gestern xx:xx Uhr / vor Yh Ym (heute xx:xx Uhr) 
+const enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }, 
                      en: { oclock: 'o&acute;clock' }, //field name = english label
                      nl: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }
                      }
   
 // translation for additional menu entrys
-const enMenuLang = { de: { discussion: 'Alle Diskussionen',
+const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
                              enstyler: 'Enstyler Homepage', enhref: 'https://www.mydealz.de/diskussion/enstyler-856062',
                              settings: 'Enstyler Einstellungen' },
-                    
-                     en: { discussion: 'All discussions', 
+                     en: { discussion: 'All discussions', // only mydealz
                              enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
                              settings: 'Enstyler Settings' },
-                     nl: { discussion: 'All discussions', 
+                     nl: { discussion: 'All discussions', // only mydealz
                              enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
                              settings: 'Enstyler Settings' }   
                    }
 
-// translation for site specific stuf, ie section names or text to look for values
-const enSiteConfig= { Mydealz: { discussion: '/diskussion/', page: 'Seite '},
+// translation for site specific stuff, ie section names or text to look for actual page
+const enSiteConfig= { Mydealz: { discussion: '/diskussion/', page: 'Seite ' },
                   Preisjaeger: { discussion: '/diskussion/', page: 'Seite '},
                            Nl: { discussion: '/discussies/', page: 'Pagina '}
                        }
 
-// translation for config dialog
+// translation of config dialog
 const enConfigLang = {
    de: { 
        headline: 'Enstyler - Einstellungen',
@@ -58,7 +59,8 @@ const enConfigLang = {
         fixhtml: 'fix Deal Text HTML',
       blacklist: 'Aktiviere Black- / Whitelist', 
       blackcold: 'Blacklist wenn k&auml;lter als', 
-          black: 'Blacklist - Dealz, Kategorie, @Benutzer, Kommentare', 
+          black: 'Blacklist - Dealz, Kategorie, @Benutzer, Kommentare',
+       examples: 'G.steklo, Bangood, @Admin',
           white: 'Whitelist', 
         unblack: 'Entferne von Blacklist:',
            lang: 'Enstyler Sprache w&auml;hlen',
@@ -89,7 +91,8 @@ const enConfigLang = {
         fixhtml: 'fix Deal Text HTML',
       blacklist: 'Enable Black- / Whitelist', 
       blackcold: 'Blacklist if colder then', 
-          black: 'Blacklist - dealz, categories, @users, comments', 
+          black: 'Blacklist - dealz, categories, @users, comments',
+       examples: 'toilet, Bangood, @Admin',
           white: 'Whitelist', 
         unblack: 'Remove from blacklist:',
            lang: 'Select Enstyler Language',
@@ -118,7 +121,8 @@ const enConfigLang = {
        dealtime: 'Show real Deal Time', 
         mintime: 'if older than Hours',
         fixhtml: 'fix Deal Text HTML',
-      blacklist: 'Enable Black- / Whitelist', 
+      blacklist: 'Enable Black- / Whitelist',
+       examples: 'toilet, Bangood, @Admin',
       blackcold: 'Blacklist if colder then', 
           black: 'Blacklist - dealz, categories, @users, comments', 
           white: 'Whitelist', 
