@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.03.021
-// Date: 2016-03-02
+// Version: 3.03.121
+// Date: 2016-03-13
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -67,7 +67,8 @@ const enConfigLang = {
         savecss: 'Deine ausgewählten CSS Optionen',
        howtocss: 'Zum Beibehalten der CSS Optionen "<EN-LANG:save>" klicken ',
         options: 'Optionen speichern',
-     optnotsave: 'Klicken zum Speichern der Optionen!'
+     optnotsave: 'Klicken zum Speichern der Optionen!',
+      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pr&uuml;fen sie das userstyles.org in der Liste der zugelassen Websites ist.'
        },
    en: {
        headline: 'Enstyler - Settings',
@@ -99,7 +100,9 @@ const enConfigLang = {
         savecss: 'Your selected CSS options',
        howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
         options: 'Save options',
-     optnotsave: 'Klick to save Options!'
+     optnotsave: 'Klick to save Options!',
+      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.'
+
      }
      }
 //
