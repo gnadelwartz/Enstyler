@@ -71,7 +71,7 @@ const enConfigLang = {
        howtocss: 'Zum Beibehalten der CSS Optionen "<EN-LANG:save>" klicken ',
         options: 'Optionen speichern',
      optnotsave: 'Klicken zum Speichern der Optionen!',
-      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pr&uuml;fen sie das userstyles.org in der Liste der zugelassen Websites ist.'
+      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org in der Liste der zugelassen Websites ist.'
 
        },
    en: {
