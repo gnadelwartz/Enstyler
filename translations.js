@@ -90,7 +90,7 @@ const enConfigLang = {
       blacklist: 'Enable Black- / Whitelist', 
       blackcold: 'Blacklist if colder then', 
           black: 'Blacklist - dealz, categories, @users, comments',
-       examples: 'toilet, Bangood, @Admin',
+       examples: 'p.rn, Bangood, @Admin',
           white: 'Whitelist', 
         unblack: 'Remove from blacklist:',
            lang: 'Select Enstyler Language',
@@ -102,7 +102,6 @@ const enConfigLang = {
         options: 'Save options',
      optnotsave: 'Klick to save Options!',
       cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.'
-
      }
      }
 //
