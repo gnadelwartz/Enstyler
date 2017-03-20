@@ -72,7 +72,7 @@ const enConfigLang = {
         options: 'Optionen speichern',
      optnotsave: 'Klicken zum Speichern der Optionen!',
       cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org in der Liste der zugelassen Websites ist.',
-    regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte prüfen sie unnötige/mehrfache Verwendung "." und ","'
+    regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnötige/mehrfache Verwendung von "." und ","'
       },
    en: {
        headline: 'Enstyler - Settings',
@@ -106,7 +106,7 @@ const enConfigLang = {
         options: 'Save options',
      optnotsave: 'Klick to save Options!',
       cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.',
-    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double "." and "," characters'
+    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
      }
    }
 //
