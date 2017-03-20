@@ -1,9 +1,16 @@
 // translations for International Enstyler Version
-// Version: 3.03.021
-// Date: 2016-03-02
+// Version: 3.03.201
+// Date: 2016-03-20
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
+
+// translation for site specific stuff, ie section names or text to look for actual page
+const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Seite ' },
+                  Preisjaeger: { lang: 'de', discussion: '/diskussion/', page: 'Seite '},
+                           Nl: { lang: 'nl', discussion: '/discussies/', page: 'Pagina '}
+                       }
+
 
 // translation for additional deal actions
 const enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
@@ -32,11 +39,6 @@ const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
                              settings: 'Enstyler Settings' }   
                    }
 
-// translation for site specific stuff, ie section names or text to look for actual page
-const enSiteConfig= { Mydealz: { discussion: '/diskussion/', page: 'Seite ' },
-                  Preisjaeger: { discussion: '/diskussion/', page: 'Seite '},
-                           Nl: { discussion: '/discussies/', page: 'Pagina '}
-                       }
 
 // translation of config dialog
 const enConfigLang = {
