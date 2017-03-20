@@ -10,7 +10,7 @@ const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: '
                   Preisjaeger: { lang: 'de', discussion: '/diskussion/', page: 'Seite '},
                            Nl: { lang: 'en', discussion: '/discussies/', page: 'Pagina '},
                    Userstyles: { lang: 'de' },
-                     languages: { 'auto','de','en'}
+                    languages: [ 'auto','de','en' ]
                        }
 
 
