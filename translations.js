@@ -8,9 +8,9 @@
 // translation for site specific stuff, ie section names or text to look for actual page
 const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Seite ' },
                   Preisjaeger: { lang: 'de', discussion: '/diskussion/', page: 'Seite '},
-                           Nl: { lang: 'nl', discussion: '/discussies/', page: 'Pagina '}
-                       }
-
+                           Nl: { lang: 'en', discussion: '/discussies/', page: 'Pagina '},
+                   Userstyles: { lang: 'de' }
+}
 
 // translation for additional deal actions
 const enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
