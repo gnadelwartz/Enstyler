@@ -73,9 +73,9 @@ const enConfigLang = {
        howtocss: 'Zum Beibehalten der CSS Optionen "<EN-LANG:save>" klicken ',
         options: 'Optionen speichern',
      optnotsave: 'Klicken zum Speichern der Optionen!',
-      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org in der Liste der zugelassen Websites ist.'
-
-       },
+      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org in der Liste der zugelassen Websites ist.',
+    regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnötige/mehrfache Verwendung von "." und ","'
+         },
    en: {
        headline: 'Enstyler - Settings',
        features: 'additonal features for Enstyler',
@@ -107,8 +107,9 @@ const enConfigLang = {
        howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
         options: 'Save options',
      optnotsave: 'Klick to save Options!',
-      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.'
-     },
+      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.',
+    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
+       },
    nl: {
        headline: 'Enstyler - Settings',
        features: 'additonal features for Enstyler',
@@ -140,6 +141,7 @@ const enConfigLang = {
        howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
         options: 'Save options',
      optnotsave: 'Klick to save Options!',
-      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.'
+      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.',
+    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
      }
 //
