@@ -9,9 +9,10 @@
 const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Seite ' },
                   Preisjaeger: { lang: 'de', discussion: '/diskussion/', page: 'Seite '},
                            Nl: { lang: 'en', discussion: '/discussies/', page: 'Pagina '},
+                   Hotukdeals: { lang: 'en', discussion: '/discussion/', page: 'Page '},
                    Userstyles: { lang: 'de' },
                     languages: [ 'auto','de','en','nl' ]
-}
+                       }
 
 // translation for additional deal actions
 const enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
@@ -35,13 +36,10 @@ const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
                      en: { discussion: 'All discussions', // only mydealz
                              enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
                              settings: 'Enstyler Settings' },
-                     nl: { discussion: 'All discussions', // only mydealz
-                             enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
-                             settings: 'Enstyler Settings' }   
                    }
 
 
-// translation of config dialog
+// translation of config dialogs
 const enConfigLang = {
    de: { 
        headline: 'Enstyler - Einstellungen',
@@ -76,7 +74,8 @@ const enConfigLang = {
      optnotsave: 'Klicken zum Speichern der Optionen!',
       cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org in der Liste der zugelassen Websites ist.',
     regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnötige/mehrfache Verwendung von "." und ","'
-         },
+      },
+  
    en: {
        headline: 'Enstyler - Settings',
        features: 'additonal features for Enstyler',
@@ -97,7 +96,7 @@ const enConfigLang = {
       blacklist: 'Enable Black- / Whitelist', 
       blackcold: 'Blacklist if colder then', 
           black: 'Blacklist - dealz, categories, @users, comments',
-       examples: 'p.orn, Bangood, @Admin',
+       examples: 'p.rn, Bangood, @Admin',
           white: 'Whitelist', 
         unblack: 'Remove from blacklist:',
            lang: 'Select Enstyler Language',
@@ -111,6 +110,7 @@ const enConfigLang = {
       cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.',
     regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
        },
+  
    nl: {
        headline: 'Enstyler - Settings',
        features: 'additonal features for Enstyler',
@@ -132,6 +132,7 @@ const enConfigLang = {
        examples: 'p.orn, Bangood, @Admin',
       blackcold: 'Blacklist if colder then', 
           black: 'Blacklist - dealz, categories, @users, comments', 
+       examples: 'p.rn, Bangood, @Admin',
           white: 'Whitelist', 
         unblack: 'Remove from blacklist:',
            lang: 'Select Enstyler Language',
@@ -145,4 +146,5 @@ const enConfigLang = {
       cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.',
     regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
      }
+   }
 //
