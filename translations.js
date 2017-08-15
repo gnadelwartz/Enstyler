@@ -129,7 +129,7 @@ const enConfigLang = {
         mintime: 'if older than Hours',
         fixhtml: 'fix Deal Text HTML',
       blacklist: 'Enable Black- / Whitelist',
-       examples: 'p.orn, Bangood, @Admin',
+       examples: 'p.rn, Bangood, @Admin',
       blackcold: 'Blacklist if colder then', 
           black: 'Blacklist - dealz, categories, @users, comments', 
        examples: 'p.rn, Bangood, @Admin',
