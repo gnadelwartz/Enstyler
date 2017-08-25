@@ -19,14 +19,14 @@ const enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', 
                            po: 'Sag',            rem: 'Entf',                   ed: 'Bearb',        ma: 'Mail' }, // short link text for small screen
                      en: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
                            po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' }, // short link text for small screen
-                     nl: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
-                           po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' } // short link text for small screen
+                     nl: { post: 'Geef een commentaar', remove: 'Van de lijst schrappen', edit: 'Bewerken', mail: 'Per e-mail sturen',
+                           po: 'Geef',             rem: 'Verwijderen',              ed: 'Bewerken',   ma: 'Mail' } // short link text for small screen
                      }
   
 // translation for deal time display  // Gestern xx:xx Uhr / vor Yh Ym (heute xx:xx Uhr) 
 const enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }, 
                      en: { oclock: 'o&acute;clock' }, //field name = english label
-                     nl: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }
+                     nl: { yesterday: 'Gisteren', today: 'vandaag', oclock: 'Uur' }
                      }
   
 // translation for additional menu entrys
@@ -34,8 +34,11 @@ const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
                              enstyler: 'Enstyler Homepage', enhref: 'https://www.mydealz.de/diskussion/enstyler-856062',
                              settings: 'Enstyler Einstellungen' },
                      en: { discussion: 'All discussions', // only mydealz
-                             enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
+                             enstyler: 'Enstyler Homepage', enhref: 'https://www.mydealz.de/diskussion/enstyler-1035447',
                              settings: 'Enstyler Settings' },
+                     nl: { discussion: 'All discussions', // only mydealz
+                             enstyler: 'Enstyler Homepage', enhref: 'https://www.mydealz.de/diskussion/enstyler-1035447',
+                             settings: 'Enstyler Instellingen' },
                    }
 
 
@@ -112,39 +115,38 @@ const enConfigLang = {
        },
   
    nl: {
-       headline: 'Enstyler - Settings',
-       features: 'additonal features for Enstyler',
-      configcss: 'CSS Options',
+       headline: 'Enstyler - Instellingen',
+       features: 'geavanceerde functies voor Enstyler',
+      configcss: 'CSS opties',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
-      injectcss: 'Inject CSS without Stylish',
-         config: 'Configuration',
+      injectcss: 'CSS zonder Stylish laden',
+         config: 'Configuratie',
        navfixed: 'Display FIXED MainNav', 
-      userpopup: 'Show Popuop Userinfo', 
-          touch: 'Enable Touch Support', 
+      userpopup: 'Popup voor Userinfo aantonen', 
+          touch: 'Activeer Touch Support', 
          amazon: 'Amazon mobile redirect', 
-     dealaction: 'additional Deal actions', 
-         picker: 'Enable Page Picker', 
-       dealtime: 'Show real Deal Time', 
-        mintime: 'if older than Hours',
+     dealaction: 'Bijgevoegde Deal acties', 
+         picker: 'Toon Page Picker aan', 
+       dealtime: 'Toon echte Deal tijd aan', 
+        mintime: 'zodra ouder dan x uren',
         fixhtml: 'fix Deal Text HTML',
-      blacklist: 'Enable Black- / Whitelist',
+      blacklist: 'Activeer Black- / Whitelist',
        examples: 'p.rn, Bangood, @Admin',
-      blackcold: 'Blacklist if colder then', 
-          black: 'Blacklist - dealz, categories, @users, comments', 
-       examples: 'p.rn, Bangood, @Admin',
+      blackcold: 'Blacklist zodra ouder dan', 
+          black: 'Blacklist - dealz, categorie, @gebruiker, commentaren', 
           white: 'Whitelist', 
-        unblack: 'Remove from blacklist:',
-           lang: 'Select Enstyler Language',
-           save: 'Save',
-          close: 'Close',
+        unblack: 'Verwijderen van blacklist:',
+           lang: 'Selecteer Enstyler taal',
+           save: 'Opslaan',
+          close: 'Sluiten',
        // Enstler CSS Config
-        savecss: 'Your selected CSS options',
-       howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
-        options: 'Save options',
-     optnotsave: 'Klick to save Options!',
-      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.',
-    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
+        savecss: 'Uw selecteerde CSS opties',
+       howtocss: 'CSS opties handhaven door "<EN-LANG:save>" te klikken',
+        options: 'Opties opslaan',
+     optnotsave: 'Klik om opties op te slaan!',
+      cssfailed: 'Het laden van <EN-LANG:configcss> wordt geweigerd door de webbrowser\n\nKontroleer aub. of userstyles.org in de lijst van de whitelist staat.',
+    regexfailed: 'Fout in blacklist: verkeerd gebruik van "." of ","\n\nKontroleer aub. het onnodige/dubbele gebruik van "." en "," '
      }
    }
 //
