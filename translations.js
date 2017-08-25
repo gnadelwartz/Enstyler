@@ -11,7 +11,7 @@ const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: '
                            Nl: { lang: 'en', discussion: '/discussies/', page: 'Pagina '},
                    Hotukdeals: { lang: 'en', discussion: '/discussion/', page: 'Page '},
                    Userstyles: { lang: 'de' },
-                    languages: [ 'auto','de','en','nl', 'fr', 'es' ]
+                    languages: [ 'auto','de','en','nl','fr','es','be','it','ro','jp' ]
                        }
 
 // translation for additional deal actions
