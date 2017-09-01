@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.03.201
-// Date: 2016-03-20
+// Version: 3.09.011
+// Date: 2016-09-01
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -68,6 +68,10 @@ const enConfigLang = {
           white: 'Whitelist', 
         unblack: 'Entferne von Blacklist:',
            lang: 'Enstyler Sprache w&auml;hlen',
+       syncconf: 'Konfiguration synchronisieren',
+       autosync: 'Autosync last seen',
+        synckey: 'SyncID (>6 Zeichen oder off)',
+           sync: 'Synchronisieren',
            save: 'Speichern',
           close: 'Schlie&szlig;en',
        // Enstler CSS Config
@@ -103,6 +107,10 @@ const enConfigLang = {
           white: 'Whitelist', 
         unblack: 'Remove from blacklist:',
            lang: 'Select Enstyler Language',
+       syncconf: 'Configuration Sync Settings',
+       autosync: 'Autosync last seen',
+        synckey: 'SyncID (>6 Characters or off)',
+           sync: 'Synchonize',
            save: 'Save',
           close: 'Close',
        // Enstler CSS Config
@@ -138,6 +146,10 @@ const enConfigLang = {
           white: 'Whitelist', 
         unblack: 'Verwijderen van blacklist:',
            lang: 'Selecteer Enstyler taal',
+       syncconf: 'Configuration Sync Settings',
+       autosync: 'Autosync last seen',
+        synckey: 'SyncID (>6 Characters or off)',
+           sync: 'Synchonize',
            save: 'Opslaan',
           close: 'Sluiten',
        // Enstler CSS Config
