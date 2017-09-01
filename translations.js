@@ -70,7 +70,7 @@ const enConfigLang = {
            lang: 'Enstyler Sprache w&auml;hlen',
        syncconf: 'Konfiguration synchronisieren',
        autosync: 'Autosync letzter Deal',
-        synckey: 'SyncID (6+ Zeichen)',
+        synckey: 'SyncID (6+ Zeichen / \'off\')',
            sync: 'Synchronisieren',
            save: 'Speichern',
           close: 'Schlie&szlig;en',
