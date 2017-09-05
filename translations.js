@@ -79,7 +79,7 @@ const enConfigLang = {
        howtocss: 'Zum Beibehalten der CSS Optionen "<EN-LANG:save>" klicken ',
         options: 'Optionen speichern',
      optnotsave: 'Klicken zum Speichern der Optionen!',
-      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org in der Liste der zugelassen Websites ist.',
+      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org erreichbar und in der Liste der zugelassen Websites ist.',
     regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnötige/mehrfache Verwendung von "." und ","'
       },
   
@@ -118,7 +118,7 @@ const enConfigLang = {
        howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
         options: 'Save options',
      optnotsave: 'Klick to save Options!',
-      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is on the browsers whitelist.',
+      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is avail and on the browsers whitelist.',
     regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
        },
   
@@ -157,7 +157,7 @@ const enConfigLang = {
        howtocss: 'CSS opties handhaven door "<EN-LANG:save>" te klikken',
         options: 'Opties opslaan',
      optnotsave: 'Klik om opties op te slaan!',
-      cssfailed: 'Het laden van <EN-LANG:configcss> wordt geweigerd door de webbrowser\n\nKontroleer aub. of userstyles.org in de lijst van de whitelist staat.',
+      cssfailed: 'Het laden van <EN-LANG:configcss> wordt geweigerd door de webbrowser\n\nControleer alstublieft of userstyles.org beschikbaar is en op de witte lijst van browsers.',
     regexfailed: 'Fout in blacklist: verkeerd gebruik van "." of ","\n\nKontroleer aub. het onnodige/dubbele gebruik van "." en "," '
      }
    }
