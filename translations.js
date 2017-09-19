@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
 // Version: 3.09.011
-// Date: 2016-09-01
+// Date: 2016-09-18
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -11,7 +11,8 @@ const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: '
                            Nl: { lang: 'en', discussion: '/discussies/', page: 'Pagina '},
                    Hotukdeals: { lang: 'en', discussion: '/discussion/', page: 'Page '},
                    Userstyles: { lang: 'de' },
-                    languages: [ 'auto','de','en','nl','fr','es','be','it','ro','jp' ]
+                    languages: [ 'auto','de','en','nl','fr','es','be','it','ro' ],
+                    synctimes: [ 'off', '5', '10', '20', '30', '60']
                        }
 
 // translation for additional deal actions
@@ -72,6 +73,7 @@ const enConfigLang = {
        autosync: 'Autosync letzter Deal',
         synckey: 'SyncID (6+ Zeichen / \'off\')',
            sync: 'Synchronisieren',
+       synctime: 'nach x Minuten',
            save: 'Speichern',
           close: 'Schlie&szlig;en',
        // Enstler CSS Config
@@ -111,6 +113,7 @@ const enConfigLang = {
        autosync: 'Autosync last deal',
         synckey: 'SyncID (6+ char. or \'off\')',
            sync: 'Synchonize',
+       synctime: 'after x minutes',
            save: 'Save',
           close: 'Close',
        // Enstler CSS Config
@@ -147,9 +150,10 @@ const enConfigLang = {
         unblack: 'Verwijderen van blacklist:',
            lang: 'Selecteer Enstyler taal',
        syncconf: 'Configuration Sync Settings',
-       autosync: 'Autosync last deal',
-        synckey: 'SyncID (6+ char. or \'off\')',
-           sync: 'Synchonize',
+       autosync: 'Autosync laatste Deal',
+        synckey: 'SyncID (6+ laders / \'off\')',
+           sync: 'Synchoniseren',
+       synctime: 'na x minuten,
            save: 'Opslaan',
           close: 'Sluiten',
        // Enstler CSS Config
