@@ -12,7 +12,7 @@ const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: '
                    Hotukdeals: { lang: 'en', discussion: '/discussion/', page: 'Page '},
                    Userstyles: { lang: 'de' },
                     languages: [ 'auto','de','en','nl','fr','es','be','it','ro' ],
-                    synctimes: [ 'off', '5', '10', '20', '30', '60']
+                    synctimes: [ '5', '10', '20', '30', '60']
                        }
 
 // translation for additional deal actions
