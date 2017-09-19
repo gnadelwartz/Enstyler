@@ -153,7 +153,7 @@ const enConfigLang = {
        autosync: 'Autosync laatste Deal',
         synckey: 'SyncID (6+ laders / \'off\')',
            sync: 'Synchoniseren',
-       synctime: 'na x minuten,
+       synctime: 'na x minuten',
            save: 'Opslaan',
           close: 'Sluiten',
        // Enstler CSS Config
