@@ -12,9 +12,9 @@ const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: '
                    Hotukdeals: { lang: 'en', discussion: '/discussion/', page: 'Page '},
                    Userstyles: { lang: 'de' },
                     languages: [ 'auto','de','en','nl','fr','es','be','it','ro' ],
-                     timetime: [ '0', '0.5', '1', '2', '3', '6', '12', '100'],            // hours
-                    blackcold: [ '-5', '-10', '-20', '-30', '-60', '-120', '-200', -999], // colder
-                    synctimes: [ '5', '10', '20', '30', '60', '120', '1000'],             // minutes
+                     timetime: [ '0', '0.5', '1', '2', '3', '6', '12', '100'],              // hours
+                    blackcold: [ '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-999'], // colder
+                    synctimes: [ '5', '10', '20', '30', '60', '120', '1000'],               // minutes
                        }
 
 // translation for additional deal actions
