@@ -1,0 +1,179 @@
+Style Settings (Optional) Need help with style settings?
+
+Default
+/*
+Default
+
+Default
+0
+Default
+1
+Default
+3
+Default
+4
+Default
+6
+Default
+8
+Default
+11
+
+Default
+/*
+Default
+Default
+.partnerBar { display: none; } /* ausblenden 
+
+Default
+/*
+Default
+
+Default
+0.4em
+Default
+0.65em
+Default
+0.9em
+Default
+1.2em
+
+Default
+/*
+Default
+
+Default
+/*
+Default
+
+Default
+Default
+:hover { left: -1px; top: 32px; transform: scale(1.5); z-index: 100;}
+Default
+:hover { left: -1px; top: 62px; transform: scale(2); z-index:100;}
+Default
+:focus { left: -25px; top: 32px; transform: scale(1.5); z-index:100;}
+Default
+:focus { left: -55px; top: 62px; transform: scale(2); z-index: 100;}
+
+Default
+1
+Default
+2
+Default
+4
+
+Default
+white
+Default
+#f5f0f0
+Default
+#c5c5d5
+Default
+#505040
+Default
+#010101
+Default
+#ffc7ff
+
+Default
+#69be28
+Default
+#ff7900
+Default
+#00a9e0
+Default
+#e00034
+Default
+#a61c00
+
+Default
+1
+Default
+3
+Default
+5
+Default
+7
+
+Default
+/*
+Default
+
+Default
+/*
+Default
+
+Default
+99%
+Default
+2500px
+Default
+3500px
+Default
+1900px
+Default
+1500px
+Default
+1200px
+Default
+900px
+Default
+85.7143em
+Default
+90%
+Default
+95%
+
+Default
+/*
+Default
+
+Default
+/*
+Default
+
+Default
+/*
+Default
+
+Default
+;
+Default
+{background-image: url(https://static.mydealz.de/live/comments/full_screen/T3cJh/9815597.jpg);  background-size: 2.79em auto; width: 50px; height: 24px;}
+Default
+background-image: url(https://static.mydealz.de/live/comments/full_screen/KyJeI/9815597.jpg); background-size: 1.731em auto; width: 32px; height: 25px;
+
+Default
+,
+               domain("www.preisjaeger.at")
+Default
+,
+               domain("www.preisjaeger.at"),
+               domain("nl.pepper.com").
+               domain("www.hotukdeals.com")
+Default
+,
+               domain("www.preisjaeger.at"),
+               domain("nl.pepper.com"),
+               domain("www.pepper.pl"),
+               domain("www.pepper.co.kr"),
+               domain("www.pelando.com.br"),
+               domain("www.promodescuentos.com"),
+               domain("www.buenosdeals.com")
+
+Default
+/*
+Default
+
+Default
+/*
+Default
+
+Default
+Default
+Default
+Primary Screenshot This screenshot will be displayed on your style page and in search results. It should clearly represent what the site or app looks like with your style applied. More info on screenshots.
+Automatically generate screenshot
+(coming soon)
+Upload screenshot (GIF, PNG, JPG, at least 700 x 350, <200KB)
