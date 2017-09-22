@@ -36,7 +36,7 @@ function addStyleString(str, part) {
        if (part=='') { part= enLocParser.hostname; }
        
        //split userstyle in parts
-       var myPart = str.split(part); 
+       var myPart = str.split(part);  
        str='';
        
        // extract parts
