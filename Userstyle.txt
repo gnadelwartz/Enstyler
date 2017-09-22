@@ -1,0 +1,77 @@
+<b>MyDealz EnStyler 2 - supported Mydealz und internationales Layout</b>
+http://www.mydealz.de/diverses/enstyler-style-your-mydealz-736219
+
+ * Author      : Gnadelwartz
+ * Version     : 3.09.171
+ * Version 2 - unterstuetzt MyDealz und internationales Pepper Layout 2016
+ * Die meisten Optionen lassen sich vor dem Download konfigurieren.
+<pre>
+ *NEW* support for UK site
+ *NEW* remove Badges on avatar
+ *NEW* real Black Theme together with ensstyler 
+ *FIX* Anpassunge an neues Userstyle Design
+ *NEW* Kein Userstyle mehr nötig, wird direkt von EnstylerJS geladen!
+ 
+ * Getestet mit:
+     - Firefox 46 + Stylish (on Linux + Windows)
+     - Firefox Mobile 46 (on Android Tablet + Phone)
+     - Chrome/Vivaldi on Windows and Android
+</pre>
+<pre>
+ * Anpassungen:
+    - dynamische Breite bis 100%
+    - kompakteres Design
+    - Newsletter abgeschaltet
+    - WhatsApp abgeschaltet
+    - Top Info / Cookies  abgeschaltet
+    - gruene Box um Avatar
+    - Shops in rechter Spalte abgeschaltet
+    - Werbung in Suche abgeschaltet
+    - MD Logo auswählbar, Flamme
+    - Beste Kommentare ausgeschaltet
+    - Deal Vorschau kleiner *fixed*
+    - FLAT Layout in Abstufungen auswaehlbar (weniger rund) *fixed*
+    - Farbverlauf Dealmeter ändert sich mit FLAT Layout
+    - fade in/out Partner TopBar oder komplett abschaltbar
+    - Zoom in 2x/4x hottest Dealz
+    - fallback für browser ohne calc support
+    - breite Dealz Seite angepasst 
+    - Enstyler Homepage styled
+    - Footer kompakter
+    - Hintergrundfarbe auswählbar
+    - Deal Image Zoom in Übersicht
+    - improved Smiley support
+    - Images sind jetzt direkt bei MyDealz abgelegt
+    - appBanner auf mobile device ausblenden
+    - Deal Button wieder orange
+    - Gnadelwartz like Buttons
+    - Farbverlauf Dealmeter für MyDealz extrem! angepasst
+    - Support für altes Design entfernt
+    - MyDealz extrem! alles rund
+    - alles Buttons
+    - Viber Emojis
+    - Deal zoom bei klick
+    - Anzeige für schmale Bildschirme optimiert
+    - floating edit toolbar
+    - keine Sticky Votebar, kein Sticky Footer
+    - Kachelansicht nutzt maximale Breite
+    - Neue MaxRound Implementierung, geht jetzt auch in Chrome
+    - Mesage Typ Event entfernen
+    - Floating Images in Deal
+
+* aktvierbare internationale Seiten:
+              - preisjaeger.at
+              - nl.pepper.com
+              - pepper.pl
+              - pepper.co.kr
+              - pelando.com.br
+              - promodescuentos.com
+              - buenosdeals.com
+
+* gnadelwartzdontlikethis:
+    - hottest counter ausgeblendet, nervt
+    - Beschriftung "Sortierung" ausgeblendet, unnötig
+    - keine Newbie Nachricht
+    - seitennavigation oben aus
+
+</pre>
