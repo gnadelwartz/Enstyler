@@ -5,54 +5,79 @@
 // @include     https://nl.pepper.com/*
 // @include     https://www.preisjaeger.at/*
 // @include     https://www.mydealz.de/*
+// @include     https://www.hotukdeals.com/*
 // @include     https://userstyles.org/styles/128262/*
 // @include     https://www.amazon.*/gp/aw/*
-// @version     3.03.023
+// @version     3.09.227
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
-// @require     https://cdn.rawgit.com/gnadelwartz/zepto-modules/468559e1/zepto-noajax-min.js
-// @require     https://cdn.rawgit.com/gnadelwartz/GM_config/0e4b1e4c/GM_config-min.js
+// //@require     http://code.jquery.com/jquery-3.1.1.min.js
+// //@require     http://openuserjs.org/src/libs/sizzle/GM_config.js
+// // gnadelwartz hosted includes
+// @require     https://cdn.rawgit.com/gnadelwartz/zepto-modules/468559e1b3dc6463a0eada49ff71d7b5407a8a26/zepto-noajax-min.js
+// @require     https://cdn.rawgit.com/gnadelwartz/GM_config/0e4b1e4c0dd6b08499082c679850ebc0f56e6ca4/GM_config-min.js
+// @require     https://cdn.rawgit.com/gnadelwartz/Enstyler/ddfb36c86d63212268125ec1df9a831713188997/translations.js
+// @require     https://cdn.rawgit.com/bitwiseshiftleft/sjcl/4fc74ff92fd6b836cc596cc0ee940ef6cc8db7c6/sjcl.js
 // @run-at      document-start
 // ==/UserScript==
 // ========== INIT EnstylerJS =====================================
 // init Enstyler environment
-// Parse location and site for later use
+const DEBUG=true;
+const DEBUGXX=true;
+const DEBUGXXX=false;
+
+// Parse location info
 const enLocParser=location;
+
+// get name of international site without www and domain
 const enInternationalSite=enLocParser.hostname.replace('www\.','');
-// get name of international site without domain, BUT if its pepper keep domain
-//const enInternationalName=enInternationalSite.indexOf('pepper')==-1 ? capitalizeFirstLetter(enInternationalSite.replace(/^\.|\..*/g,'')) : enInternationalSite;
 const enInternationalName=capitalizeFirstLetter(enInternationalSite.replace(/^\.|\..*/g,''));
 const enInternational=(enInternationalName != 'Mydealz');
 
-// Mydealz, Preisjaeger and usertyles default german, everthing else english
-var enLANG= (enInternationalName.match(/mydealz|preisjaeger|userstyle/i)) ? 'de' : 'en';
-const enLangPat=/<EN-LANG:(.*?)>/g;
-
-// read user selected LANG
-const myLang=GM_getValue('enLang', '');
-if(myLang == '' ) {
-    GM_setValue('enLANG', '');
-} else {
-    enLANG=myLang;
-}
-
 // 1 day between update checks (in minutes)
 var enUpdateInterval=1 * (24*60);
+var enMs2Min=60000;
 
 // dom we run on FF? GM hast no scriptHandler, USI may or may not, so NOT Tampermonkey is OK
 var isMozilla=(typeof GM_info.scriptHandler === "undefined" || !GM_info.scriptHandler.startsWith('Tamp'))
 
 var enUserLogin = false;
 var enUserName = '';
-var enSection = '';
+var enSection = enLocParser.pathname.replace(/\/([^\/]+\/*).*/,'/$1');
+const enSyncOff='off';
+var enSyncKey=enSyncOff, enAutoSync=false, enSyncInterval=5; // 5 minutes
 
-const DEBUG=true;
 if (DEBUG) {
     var  enInitTime = performance.now();
     console.error('DEBUG activated');
-    console.error('International Site: '+enInternationalSite)
-    console.error('International Name: '+enInternationalName)
+    console.error('International Site: '+enInternationalSite);
+    console.error('International Name: '+enInternationalName);
+}
+
+// set update/sync intervals 10 times faster
+if (DEBUGXX) { enMs2Min=10000; }
+if (DEBUGXXX) { enMs2Min=1000; }
+
+// disable script if regex matches to path
+const enDisableScript=/settings$/;
+
+
+// Get default lang from site config
+const enLangPat=/<EN-LANG:(.*?)>/g;
+var enLANG;
+const enSiteLANG=enSiteConfig[enInternationalName]['lang'];
+
+// read user selected LANG
+if((enLANG=GM_getValue('enLang', '')) == '' ) {
+    GM_setValue('enLANG', '');
+    enLANG=enSiteLANG;
+}
+
+
+if (DEBUG) {
+    console.error('Site Lang:     '+enSiteLANG);
+    console.error('Selected Lang: '+enLANG);
     // output location, remove * to activate
     console.error('URL : '+enLocParser.toString());     // http://example.com:300/pathname?search=test#hash
     //console.error('protocol : '+enLocParser.protocol); // => "http:"
@@ -62,30 +87,36 @@ if (DEBUG) {
     console.error('pathname : '+enLocParser.pathname); // => "/pathname/"
     console.error('  search : '+enLocParser.search);   // => "?search=test"
     console.error('    hash : '+enLocParser.hash);     // => "#hash"
-    //console.log(GM_getValue('Enstyler2_CSS'));
+    //console.error(GM_getValue('Enstyler2_CSS'));
     /**/
-    // set update check to x minutes
-    enUpdateInterval=5;
-} 
+}
 
 // Basic Initialisation ==========================
 
-function EnstylerInit () {    
+function EnstylerInit () {
         // get LoginStatus and Username
         if (enUserLogin = $('.avatar--type-nav').length) {
             enUserName = $('.navDropDown a').attr(enHREF);
             enUserName = enUserName.replace(/.*\/profile\/([^\/]+).*/,'$1');
-            if(DEBUG) console.error('User: ' +enUserName);
+            GM_setValue('enConfSyncUser', enUserName);
+            
         } else {
+            // get last user 
+            enUserName = GM_getValue('enConfSyncUser');
             //restore old last seen if user logs in
             // use this variant for dynamic loaded content click ...
-            $(document).on("click",'.test-loginButton', EnstylerLastSeenLast);
+            // $(document).on("click",'.test-loginButton', EnstylerLastSeenLast);
+        }
+        if(DEBUG) {
+            console.error('User: ' +enUserName);
+            console.error('SyncKey: ' +enSyncKey);
+            console.error('AotoSync: ' +enAutoSync);
         }
         // get Section (first element in path)
         enSection= enLocParser.pathname.replace(/\/([^\/]+\/*).*/,'/$1');
         if(DEBUG) console.error('Section: ' +enSection);
+    
 }
-
 
 // add actions @ some places ==================================
 
@@ -100,40 +131,36 @@ function EnstylerInit () {
                        '<a title="<EN-LANG:edit>" class="link text--color-blue ico ico--type-pencil-blue linkPlain ico--pos-l space--mr-3"'+ // edit 8+9+11
                        'href="<ENSTYLER-HREF-HERE>/edit" data-handler="track" data-track="{&quot;action&quot;:&quot;goto_thread_edit_form&quot;,&quot;beacon&quot;:true}">',
                        '<span class="hide--toW3"><EN-LANG:edit></span><span class="hide--fromW3 hide--toW2"><EN-LANG:ed></span>', '', '<span></a>',
-                       '<a title="<EN-LANG:mail>" class="link text--color-blue ico ico--type-code-blue linkPlain ico--pos-l space--mr-3"'+ // mail 12+13+15
+                       '<a title="<EN-LANG:mail>" class="link text--color-blue ico ico--type-mail-blue linkPlain ico--pos-l space--mr-3"'+ // mail 12+13+15
                        'href="mailto:?subject=<ENSTYLER-TEXT-HERE>" <span class="hide--toW3">',
                        '<span class="hide--toW3"><EN-LANG:mail></span><span class="hide--fromW3 hide--toW2"><EN-LANG:ma></span>', '', '<span></a>',
+                       '<a title="<EN-LANG:mail>" class="btn btn--whatsapp btn--circle size--all-xs space--ml-2" style="background-color: #69be28;"', //mail social 16+17+19
+                        'href="mailto:?subject=<ENSTYLER-TEXT-HERE>"><span class="ico ico--type-mail-white ico--reduce size--all-xxl">',
+                        '</span></a>','</span></a>'
                        ];
-
-  const enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
-                             po: 'Sag',            rem: 'Entf',                   ed: 'Bearb',        ma: 'Mail' },
-                       en: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
-                             po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' },
-                       nl: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
-                             po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' }
-                     }
 
   const enDealMarker='#thread_';
   //const enDealNoAction='.ico--type-clock-grey, .vote-temp--colder';
-  var enDealAdd='', enDealUnbook=false;
-  var enDealFooter='';
- 
+  var enDealAdd='', enSocialAdd, enDealUnbook=false;
+  var enDealFooter=''; //, enHasPopup=false;
+
 function EnstylerDealActions(){
+   
   // if enabled ...
   if (GM_config.get('enConfDealAction')) {
     // compose Footer
     if ($('footer ul').length) enDealFooter = ('%0D%0A%0D%0A-- %0D%0A'+ $('footer ul li p').first().html().replace(/<br>/g,'%0D%0A').replace(/<.*?>/g,''));
-      
+
     // use parsed location
     var pathname = enLocParser.pathname;
     var myText=0;
     // no username ??
     if (enUserName != "") {
        pathname = pathname.replace(enUserName + '/',''); // remove username if path is longer
-    }  
+    }
     // display short/no text?
-    if ($('.ico--type-grid-subNavActive').length) { myText=1; }
-        
+    if ($('.ico--type-grid-subNavActive, .thread-list--type-card ').length) { myText=1; }
+
     // default for all Dealz: first comment
     enDealAdd = enDealAction[0]+ enDealAction[1+myText] + enDealAction[3];
 
@@ -144,109 +171,121 @@ function EnstylerDealActions(){
          enDealAdd += enDealAction[4]+ enDealAction[5+myText]; + enDealAction[7];
          enDealUnbook=true;
          break;
-         
+
       case (pathname.endsWith('profile/diskussion')):
       case (enUserLogin && pathname.endsWith(enUserName)):
          // add user dealz and discussions: comment edit
          enDealAdd +=  enDealAction[8]+ enDealAction[9+myText] + enDealAction[11];
          break;
     }
-    // default last: add mail to
-    // Compose final Deal Actions 
+    // default last: add mail and mail social
+    // Compose final Deal Actions
     enDealAdd= enLangLocalize(enDealActionPreHtml + enDealAdd + enDealAction[12]+ enDealAction[13+myText] + enDealAction[15] + '</span>'
                               , enDealLang, enLANG);
+    enSocialAdd= enLangLocalize(enDealAction[16]+ enDealAction[17] + enDealAction[19] , enDealLang, enLANG);
       
+    // some spectial CSS needed?
+    var extraCSS='';
+    if(GM_config.get('enConfTouch')) {
+        // bigger dealaction icons etc on touch
+        extraCSS = 'article span.overflow--wrap-off.text--b .ico:before, article div.js-options.text--b .ico:before, article p.text--b button.ico:before' +
+                                '{-webkit-transform: scale(1.5); transform: scale(1.5); width: 1.5em; left: 5px;}' +
+                   'article a.btn--circle {-webkit-transform: scale(1.5); transform: scale(1.5); left: -1em; margin-left: 3em; width: 4em;}' +
+                   '.vote-down, .vote-up {padding-top: 0.25em; padding-bottom: 0.25em}';
+    }
+    addStyleString(extraCSS);
 
    }
-   // do it ...
-    EnstylerAvatarPopup()
-    EnstylerDealActionsDo();            
+   EnstylerDealActionsDo();
 }
 
 // surrounding myDealz HTML
-const enDealActionPreHtml  = '<span class="js-options bg--em bRad--a space--h-3 space--v-3 space--mt-3 text--b">';
+const enDealActionPreHtml  = '<span class="js-options bg--em bRad--a space--h-3 space--mt-3 text--b">';
 
 function EnstylerDealActionsDo() {
   // if enabled ...
-  var myDealAction=GM_config.get('enConfDealAction'); 
+  var myDealAction=GM_config.get('enConfDealAction');
   var myTouch=GM_config.get('enConfTouch');
-  var myAvatar=enUserLogin && GM_config.get('enConfPopup');
+  //var myAvatar=GM_config.get('enConfPopup');
   var myFixHtml=GM_config.get('enConfFixHtml');
-    
-  // every thread on thread page, raise var scope ...
-  var myInfoRow, myDeal, myDealHref, mySub, newHtml;
-  var myAvatarSize=/avatar--type-s/;
-    
-  if (!(myDealAction || myTouch || myAvatar || myFixHtml)) return;
-  if (myTouch) myAvatarSize=/avatar--type-s|thread-avatar/g;
-    
-  // process articles
-  $('article').not('.enClassActionDone, .threadWidget-item, .'+enClassHidden).each(function () {
-      // add deal actions
-      if(myDealAction) myInfoRow=$('.thread-infoRow', $(this));
-      if (myDealAction && myInfoRow.length) {
-        // get Titel, Link, DealID num
-        myDeal =$('.thread-title a', $(this));
-        myDealHref = myDeal.attr(enHREF);
 
-        // compose mail subject
-        mySub=encodeURIComponent(enInternationalName+': '+myDeal.text());
-        if (mySub.length < 100 && $(this).find('.thread-price').length) {
-            // add ' ->\xa0price'
-            mySub += encodeURIComponent(' ->\xa0' + $(this).find('.thread-price').text().replace(/ |\t/g, ''));
+  // every thread on thread page, raise var scope ...
+  var myInfoRow, myDeal, myHref, newHtml;
+    
+  if (!(myDealAction || myTouch || myFixHtml)) return;
+   // process all articles not already seen
+   $('article').not('.enClassActionDone, .'+enClassHidden).each(function () {
+      // check if this is (not) a comment
+      var noComment=$(this).attr('id')[0]!='c';  
+      // add deal actions to deal only, not comment
+      if(myDealAction && noComment) {
+        myInfoRow=$('span.thread-infoRow', $(this));
+        myDeal =$('.thread-title a', $(this)); //title
+        if (!myDeal.length) {
+            // we have no deal link
+            myDeal =$('.thread-title', $(this));
         }
-                         
-        // compose final HTML
-        newHtml = enDealAdd.replace(enPATTERN[enHREF], myDealHref)
-                               .replace(enPATTERN[enTEXT], truncStringWord(mySub, 160, '%20') +'&body=' +mySub +'%0D%0A%0D%0A' +myDealHref +enDealFooter);
-        if (enDealUnbook) {newHtml = newHtml.replace(enPATTERN[enID], ('#'+$(this).attr(enID)).replace(enDealMarker,''));}
+        // translate description
+        var desc=$(this).find('.userHtml');
+        if (desc.length) { enTranslateText(desc); }
         
-        // append HTML to Deal
-        myInfoRow.append(newHtml);
-        myInfoRow.removeClass('thread-infoRow');
+        // translate deal titles
+        enTranslateText(myDeal);
+        // abort if not an article
+        if ($('threadWidget-item', $(this)).length) { return; };
+        
+        // if myInfoRow is present we are in Deal overview 
+        if(myInfoRow.length) {
+
+          // compose final HTML for deal actions
+          newHtml = enDealComposeMail($(this), myDeal.text(),  myDeal.find('a').attr(enHREF), enDealAdd);
+     
+          // append aextra actions to Deal
+          myInfoRow.append(newHtml);
+            
+        // if myInfoRow is not present we are in deal detail
+        } else {
+
+          // compose final HTML for social buttons
+          newHtml = enDealComposeMail($(this), myDeal.text(), enLocParser.toString(), enSocialAdd);
+
+          // append HTML to Deal
+          $(this).find('a.btn--twitter').parent().append(newHtml);
+            
+        }
       }
-      
+   
       // touch optimization deal Image: remove link, fix lazy loading
-      if (myTouch) {
+      if (myTouch && noComment) {
           // get elem one
-          newHtml=$(this).find('.aGrid');
+          newHtml=$(this).find('div.aGrid, p.imgFrame--noBorder');
           // replace link href= and fix lazy loading
-           if (newHtml.length) { newHtml.html(newHtml.html().replace(/(<a .*?") href=/,  '$1 noklick=')
+          if (newHtml.length) { newHtml.html(newHtml.html().replace(/(<a .*?)href=/, '$1noklick=')
                        .replace(/ img--dummy.*" data-lazy-img="{&quot;src&quot;:&quot;/, '" src="')
                        .replace(/&quot;,&quot;finishClass&quot;:.* alt="/,'" alt="'));
               }
       }
-      
+   
       // actions for somewhere  ===========
-      // remove unwanted HTML from deal description
+      // remove unwanted HTML from deal text and comment
       if(myFixHtml) {
-          $(this).find('.userHtml').each(function () {
+          $(this).find('div.userHtml').each(function () {
              // get inner html
              // remove unwanted Stuff: combined <div><br><br> stuff, created by cut'npaste html
              // not elegant, but works ...
-             $(this).html($(this).html() .replace(/[^ -~Ä-ü]+|(&nbsp;)+|(\n\r)+|<\/p>|<\/div>/g,' ')
-                     .replace(/<div>|<p>|(<br> *<br>)( |<br>)*/g,'<br><br>')
+             $(this).html($(this).html() .replace(/[^ -~Ä-ü€$✘►○●✰]+|(&nbsp;)+|(\n\r)+|<\/p>|<div>/g,' ')
+                     .replace(/<\/div>/g, '<br>')
+                     .replace(/<p>|<br>( *<br>)+/g,'<br><br>')
                      .replace(/(<li>)(<br>)+|<br>*(<br><\/li>)/g, '$1')
-                    );
+             );
         });
       }
-      // moved from avatarPopupDo() login needed ... (Error in Popup without login ...)
-      // replace every avatar link without popup, raise var scope
-      if (myAvatar) {    
-        $(this).find('a.user').each(function () {
-            // get inner html and link to user profile
-            newHtml = $(this).html();
-            mySub = $(this).attr(enHREF);
-            
-            // seperate user name from image and add class user
-            myDeal = newHtml.replace(/<span.*/,'')
-                            .replace(myAvatarSize,'avatar--type-m');
-
-            // compose popup
-            $(this).html(enPopupUser[0] + mySub + enPopupUser[1] + myDeal +  enPopupUser[2]
-                          + '<a href="' + mySub + '">'+ newHtml.replace(/.*<span class=".* space--mr-1">/,'<span class=" space--mr-1 user link-plain">')
-                          + '</a>');
-        });
+      
+      // bigger avatar image on touch
+      if(myTouch && noComment) {
+            $(this).find('button .avatar').each(function () {
+                $(this).prop('outerHTML', $(this).prop('outerHTML').replace(/thread-avatar/,'avatar--type-m'));
+            }); 
       }
       
       $(this).addClass('enClassActionDone')
@@ -255,58 +294,19 @@ function EnstylerDealActionsDo() {
 
 }
 
+// helper function for composing mail deal action 
+function enDealComposeMail(deal, subject, href, action) {
+          // compose mail subject
+          subject=encodeURIComponent(enInternationalName+': '+subject);
+          if (subject.length < 100 && deal.find('span.thread-price').length) {
+            // add ' ->\xa0price'
+            subject += encodeURIComponent(' ->\xa0' + deal.find('span.thread-price').text().replace(/ |\t/g, ''));
+          }
 
-// show popup user info while click on avatar ... ======================
-function EnstylerAvatarPopup(){
-    if (enUserLogin && GM_config.get('enConfPopup')) {
-        // remove second image from cardview
-        addStyleString('.thread-footer-cell a img.avatar.vAlign--all-m.space--mr-1.thread-avatar {display: none;}');
-        
-        // moved to DealActionDo
-        //EnstylerAvatarPopupDo();
-    }
+          // compose final HTML
+          return action.replace(enPATTERN[enHREF], href)
+                               .replace(enPATTERN[enTEXT], truncStringWord(subject, 160, '%20') +'&body=' +subject +'%0D%0A%0D%0A' + href +enDealFooter);
 }
-
-// code used for MyDealz avatar popup, thanks to mydealz :-)
-const enPopupUser = ['<button data-handler="track popover" data-track="{&quot;action&quot;:&quot;show_short_user_profile&quot;,&quot;label&quot;:&quot;engagement&quot;}" data-popover="{&quot;endpoint&quot;:&quot;',
-                   '/short&quot;,&quot;target&quot;:&quot;#template-popoverLoader&quot;,&quot;layout&quot;:[{&quot;preset&quot;:&quot;e&quot;,&quot;y&quot;:&quot;50%&quot;,&quot;left&quot;:{&quot;offset&quot;:0},&quot;width&quot;:300,&quot;maxWidth&quot;:&quot;100%&quot;}]}">',
-                   '</button>',
-                  ];
-
-const enClassAvatarDone = 'enClassAvatarDone';
-
-//function EnstylerAvatarPopupDo() {
-// moved to dealActionD0
-//    return;
-//}
-
-/*
-    // login needed ... (Error in Popup without login ...)
-    // replace every avatar link without popup, raise var scope
-        if (enUserLogin && GM_config.get('enConfPopup')) {
-        var myHtml, mysrc, myAvatar;
-        var myBigAvatar=GM_config.get('enConfAvatar');
-        // each avatar
-        $('.thread-footer-cell a.user.linkPlain, .user.linkPlain.thread-user').not('.'+enClassAvatarDone).each(function () {
-            $(this).addClass(enClassAvatarDone);
-            
-            // get inner html and link to user profile
-            myHtml = $(this).html();
-            mysrc = $(this).attr(enHREF);
-            
-            // seperate user name from image and add class user
-            myAvatar = myHtml.replace(/<span.*XX/,'').replace(/avatar--type-s/,'avatar--type-m');
-  
-            if (myBigAvatar) { myAvatar =  myAvatar.replace(/thread-avatar/,'avatar--type-m'); } 
-            
-            // compose popup
-            $(this).html(enPopupUser[0] + mysrc + enPopupUser[1] + myAvatar +  enPopupUser[2]
-                          + '<a href="' + mysrc + '">'+ myHtml.replace(/.*<span class=".* space--mr-1">/,'<span class=" space--mr-1 user link-plain">')
-                          + '</a>');
-        });
-    }
-*/
-
 
 
 // create select page or scrollwheel for page navigation =============
@@ -332,13 +332,13 @@ function EnstylerPagePickerCreate() {
        // remove linebreaks
        var pageHtml = $('nav > div.text--color-charcoalTint').html().replace(/\r?\n|\r/g);
        //locate actual page and last page
-       if( isNaN(page = parseInt(pageHtml.replace( RegExp('.*>'+EnstylerSiteConfig('page'), 'i')  ,'')) )) { page=1;}
-       if( isNaN(max  = parseInt(pageHtml.replace( /.*page=/ ,'')) ))    { max=page;}
+            //locate actual page and last page
+            if( isNaN(page = parseInt(pageHtml.replace( /.*currentPage=/ ,'')) )) { page=1;}
+            if( isNaN(max  = parseInt(pageHtml.replace( /.*lastPage=/ ,'')) ))    { max=page;}
    }
 
    // create page select element
    for (x = 1; x <= max; ) {
-
        option = document.createElement("option");
        option.text = x;
        selectList.add(option);
@@ -385,11 +385,17 @@ function EnstylerPagePickerCreate() {
 }
 
 function EnstylerPagePickerDo() {
-   // get page and max from pagenav
-   if ( $('.js-sticky .text--color-charcoalTint').length ) {
+   // get page from URL
+   if (location.search.match(/^page=/) ) {
+       if(DEBUG) console.error('Picker from URL: '+ location.search);
+       selectList.value = parseint(location.search.replace(/^page=/,''));
+   }
+   // get page from pagenav
+   else if ( $('.js-sticky .text--color-charcoalTint').length ) {
        //locate actual page incl remove line breaks
+       if(DEBUG) console.error('Picker from pagenav: '+ $('.js-sticky .text--color-charcoalTint').html().replace(/\r?\n|\r/g).split( '--toW2">'+ 'Seite')[1]);
        // set default value
-       selectList.value = parseInt($('button.vwo-pagination-page-current').html().replace(/\r?\n|\r/g).split( '--toW2">'+ EnstylerSiteConfig('page'))[1]);
+       selectList.value = parseInt($('.js-sticky .text--color-charcoalTint').html().replace(/\r?\n|\r/g).split( '--toW2">'+ EnstylerSiteConfig('page'))[1]);
    }
 }
 
@@ -439,12 +445,15 @@ function EnstylerBlacklist() {
         GM_config.setValue('enConfWhitelist', GM_config.get('enConfWhitelist'));
     }
    
-    // convert Black/Whitelist to RegEx, escape regex characters but keep '.' for any char
-    enBlack=RegExp(GM_config.get('enConfBlacklist').replace(unwantedRegex[0], '').replace(/^,|,$/g,'').replace(/(.),(.)/g,'$1|$2'),'i');
-    enBlackTrue=!''.match(enBlack);
+    // convert Black/Whitelist to RegEx, escape regex characters but keep '.' (any char)
+    var myBlack=GM_config.get('enConfBlacklist').replace(unwantedRegex[0], '')
+    enBlack=RegExp(myBlack.replace(/^,|,$/g,'').replace(/(.),(.)/g,'$1|$2'),'i');
+    enBlackTrue=!' '.match(enBlack);
+    // warn user about regex error
+    if (!enBlackTrue && myBlack != '') alert(confLang('regexfailed'));
     
     enWhite=RegExp(GM_config.get('enConfWhitelist').replace(/^,|,$/g,'').replace(/(.),(.)/g,'$1|$2'),'i');
-    enWhiteTrue=!''.match(enWhite);
+    enWhiteTrue=!' '.match(enWhite);
     
     enBlackTemp= GM_config.get('enConfHideColder');
     EnstylerBlacklistRemove()
@@ -454,23 +463,19 @@ function EnstylerBlacklist() {
 function EnstylerBlacklistDo() {
     if (!GM_config.get('enConfBlackEnable') || ( !enBlackTrue && enBlackTemp < -900)) { return;}
     
-    // process every article, raise vars
-    var hasComments=false;
-    if ($('.comments-list').length) hasComments=true
-
     var myDealText;
     $('article').not('.'+enClassBlackDone+', .threadWidget-item').each( function () {
-        // mark as already seen
         $(this).addClass(enClassBlackDone);
-
-        // get title, categorie, user, comment and remove unwanted chars
-        myDealText = ($('.thread-category',$(this)).text()
+        // mark as already seen
+        // this is not a comment
+        if($(this).attr('id')[0]!='c') {
+           // get title, categorie, user, comment and remove unwanted chars
+           myDealText = ($('a.thread-category',$(this)).text()
               + ' ' +$('.thread-title a',$(this)).text()
-              +' @' +$('.user',$(this)).text())
-        
-        // get text and quoted user from comments
-        if (hasComments) {
-            myDealText += ' ' +$('.comments-item .userHtml', $(this)).text()
+              +' @' +$('a.user',$(this)).text())
+        } else {   
+          // comment: get text and quoted user from comments
+          myDealText = $('.userHtml', $(this)).text()
                           + ' @' +$('.vwo-user-link', $(this)).text();
         }
         // remove unwanted chars 
@@ -502,9 +507,7 @@ function EnstylerBlacklistShow() {
 }
 
 function EnstylerBlacklistRemove() {
-       enBlacklisted=0;
-       EnstylerBlacklistShow()
-       $('.'+enClassHidden).removeClass(enClassHidden);
+       EnstylerBlacklistUnhide()
        $('.'+enClassBlackDone).removeClass(enClassBlackDone);
 }  
 
@@ -516,10 +519,12 @@ function EnstylerBlacklistUnhide() {
 
 
 // Main Nav will stay on TOP of the screen =========================
-const myFixedCSS = { every:  '.enFixedNav { display: block; position: fixed; width: 100%; z-index: 120;} .subNav, .userProfile, .tabbedInterface, .splitPage-wrapper {margin-top: <ENSTYLER-TEXT-HERE>px}',
+
+const myFixedCSS = { every:  '.enFixedNav { display: block; position: fixed; width: 100%; z-index: 120;} .subNav, .profileHeader, .tabbedInterface, .splitPage-wrapper {margin-top: <ENSTYLER-TEXT-HERE>px}',
                      subnav: '.subNav {margin-top: 0 !important;} .nav-subheadline {margin-top: <ENSTYLER-TEXT-HERE>px}',
                      discus: '.tGrid.page2-center.height--all-full {margin-top: calc(<ENSTYLER-TEXT-HERE>px + 10px);} #footer .page-content { padding-top: calc(<ENSTYLER-TEXT-HERE>px + 10px);}'
                    };
+
 function EnstylerFixedNav() {
         if (GM_config.get('enConfNavFixed')) {
             // everywhere but in Deal detail, I like it like it is ... 
@@ -532,7 +537,10 @@ function EnstylerFixedNav() {
                 var myFixedStyle=myFixedCSS['every'];
                 
                 // additionla CSS for different sections
-                if (enSection == EnstylerSiteConfig('discussion')) {  myFixedStyle+=myFixedCSS['discus']; }
+                if (enSection == EnstylerSiteConfig('discussion')) {
+                    if (DEBUG) { console.error('FixedNav DICUSSION detected'); }
+                    myFixedStyle+=myFixedCSS['discus'];
+                }
                 if ($('.nav-subheadline').length || enSection=='/profile/') {
                     // additional CSS for categories
                     myFixedStyle+=myFixedCSS['subnav'];                    
@@ -545,58 +553,70 @@ function EnstylerFixedNav() {
 }
 
 // the return of "gestern xx:xx Uhr" ==============
-var enNow=new Date();
 var DealDate=new Date();
-var TodayStart;
+var TodayStart=new Date();
 var ShowTime;
 var EnstylerTimeSeen='enTimeSeen';
+var today='', oclock='', yesterday;
 
 function EnstylerDealTime() {
-         TodayStart = new Date(enNow.getFullYear(), enNow.getMonth(), enNow.getDate());
-         ShowTime= GM_config.get('enConfDealMinTime')*3600*1000;
+         TodayStart.setHours(0,0,0,0);
+         ShowTime= GM_config.get('enConfDealMinTime')*60 //Minutes;
+         // get localized values onyl once, set today and clock only if not in card
+         if (!$('section.thread-list--type-card').length) {
+             today=enLangLocalize('<span class="hide--toW2"><EN-LANG:today> </span>', enTimeLang, enLANG);
+             oclock=enLangLocalize('<span class="hide--toW2"> <EN-LANG:oclock></span>', enTimeLang, enLANG);
+         }
+         yesterday=enLangLocalize('<EN-LANG:yesterday> ', enTimeLang, enLANG);
          EnstylerDealTimeDo();
 }
 
-const enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' },
-                     en: { oclock: 'o&acute;clock' }, //field name = english label
-                     nl: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }
-                     }
-
 function EnstylerDealTimeDo() {
-  if (enSection.match(enMainSectionMatch) && GM_config.get('enConfDealTime')) {
+  if (GM_config.get('enConfDealTime')) {
          var myNow=Date.now();
+         var myTimeText, myDealDiff;
          // process every article, optimization: not if class TiemSeen
-         var myTime, myDealDiff;
          $('time').not('.'+EnstylerTimeSeen).each(function () {
-            // get Deal time, 
-            myTime= $(this).text();
-            // next article if less than an h or older than 24h
-            if ( myTime.length <8 || myTime.endsWith('e')) {return;}
-
-            // compose  deal offset
-            myDealDiff = (parseInt(myTime.replace(/.* ([0-9].*) [hu].*/, '$1'))*60+parseInt(myTime.replace(/.* ([0-9].*) m.*/, '$1')))*60000;
-            if(isNaN(myDealDiff)) return;
-            DealDate.setTime( myNow - myDealDiff );
-
-
-            // last midnigth
-            if (DealDate < TodayStart) {
-                myTime='<EN-LANG:yesterday> '+ DealDate.toString().slice(16, 21) +' <EN-LANG:oclock>';
-            // more than x hours ago
-            } else if (myDealDiff > ShowTime){
-                myTime += ' (<span class="hide--toW2"><EN-LANG:today> </span>'+ DealDate.toString().slice(16, 21)
-                         +'<span class="hide--fromW3 hide--toW2"> <EN-LANG:oclock></span>)';
-            } else { return; }
-            $(this).html(enLangLocalize(myTime, enTimeLang, enLANG));
             $(this).addClass(EnstylerTimeSeen);
+
+            // get Deal time in seconds since 1.1.1970 
+            myTimeText=$(this).attr('datetime');
+            if (typeof myTimeText !== "undefined") {
+                // datetime found
+                DealDate.setTime(myTimeText*1000);
+            } else {
+                // we have no datetime, i.e. comment 
+                myTimeText= $(this).text();
+                // de, nl to short, parsing wont work on preisjaeger, contains year 
+                if (myTimeText.length < 8 || enInternationalName == 'Preisjaeger' || myTimeText.match(/ 20[012][0-9]$/)) return;
+                // parse time string directly 
+                DealDate.setTime(myNow - ((parseInt(myTimeText.replace(/.* ([0-9].*) [hu].*/, '$1'))*60+parseInt(myTimeText.replace(/.* ([0-9].*) m.*/, '$1')))*enMs2Min));
+            } 
+
+            // get time string and Diff
+            myTimeText= $(this).html();
+            myDealDiff=((myNow-DealDate)/enMs2Min); //diff in minutes
+           
+         
+            switch (true) {
+                case (myDealDiff < 60 || myDealDiff > 7200): // < 1h > 5 days
+                    return;
+                case (myDealDiff > 1440): // > 24h
+                    myTimeText += ' (' + DealDate.toString().slice(16, 21) + oclock +')';
+                    break;
+                case (DealDate < TodayStart): // < last midnigth
+                    myTimeText= yesterday + DealDate.toString().slice(16, 21) + oclock;
+                    break;
+                case (myDealDiff > ShowTime): // set by gm_config from user
+                    myTimeText += ' (' + today + DealDate.toString().slice(16, 21) + oclock +')';
+            }
+             
+            $(this).html(myTimeText);
          });
   }
 }
 
 // mark last seen Deal in Highligth, Hot and New ============================
-var enSec='';
-var enSeenArticle='';
-
 // GM variables used here 
 // store newest loaded deal
 // 'enNewestDeal...new'
@@ -604,23 +624,23 @@ var enSeenArticle='';
 // 'enNewestDeal...'
 // international support added
 const enNewestBase='enNewest'+enInternationalSite;
+const enSec= enNewestBase +'-'+ enSection.replace(/\//, '');
 var LastSeenOnce=true;
+var enSeenArticle='';
 
 function EnstylerLastSeen(){
   // only once and in main categories
   if(LastSeenOnce) {
     LastSeenOnce=false;
-
+    SyncLastSeen();
     // store last seen for Main catergories
     if(enSection.match(enMainSectionMatch)) {
       // get section and save
-      enSec= enNewestBase + enSection.replace(/\//, '');
-      GM_setValue(enNewestBase+'LastSec', enSec)
+      // GM_setValue(enNewestBase+'LastSec', enSec)
       // get last seen article
       enSeenArticle=GM_getValue(enSec, '');
 
       EnstylerLastSeenDo();
-      
       // save actual last seen
       if(enLocParser.search == '') $('article').not('.threadWidget-item').each(function () {
           // pinned ?
@@ -628,12 +648,13 @@ function EnstylerLastSeen(){
 
           //store actual seen
           GM_setValue(enSec, $(this).attr(enID));
-          //store last seen
+          //store last seen last
           GM_setValue(enSec+'Last', enSeenArticle);
+          SaveLastSeen();
 
           // exit loop
           return false;
-      }); 
+      });
     } else {
         // if we are not in main categorie => restore last value
         EnstylerLastSeenLast()
@@ -641,53 +662,65 @@ function EnstylerLastSeen(){
   }
 }
 
-function EnstylerLastSeenDo(){
+function EnstylerLastSeenDoDo(){
   // only in main categories
+  if (DEBUGXX) { console.error('Enter LastSeenDo: ' + enSec); }
   if(enSec != '') {
       // mark last seen article
+      if (DEBUGXX) { console.error('LastSeenDo Execution: '+ enSec +' '+ enSeenArticle); }
+      GM_setValue('enLastCheck' + enSec, Date.now()/enMs2Min);
       if (enSeenArticle != '') {
           //store last marked
           GM_setValue(enSec+'Last', enSeenArticle);
+          //SaveLastSeen();
           $('#'+enSeenArticle).addClass('enClassMarkArticle');
       } else {
           // first time
           GM_setValue(enSec, 'thread_1');
       }
-
   }
 }
 
 // restore last seen from last last seen
 function EnstylerLastSeenLast(){
       // restore last value
-      enSec=GM_getValue(enNewestBase+'LastSec','');
-      GM_setValue(enSec, GM_getValue(enSec+'Last',''));    
+      var lastSec=GM_getValue(enNewestBase+'LastSec','');
+      GM_setValue(lastSec, GM_getValue(lastSec +'Last',''));    
 }
 
 // article is not availible i.e. blacklisted
 function EnstylerLastSeenSkip(DealID) {
     // if article last seen one, skip to next
-    if (DealID == '#'+enSeenArticle) {
+    if (DealID == '#'+GM_getValue(enSec, '')) {
         // magic, get ID of next article
-        enSeenArticle=$(DealID).next().attr(enID);
-        EnstylerLastSeenDo(); 
+        GM_setValue(enSec, enSeenArticle)=$(DealID).next().attr(enID);
+        EnstylerLastSeenDo();
     }
 }
 
+function EnstylerLastSeenDo() {
+        // delay lastSeenDo if sync is running, enWaitLastSeen set by sync
+        if (DEBUGXX) { console.error('LastSeenDo skip delay: '+ enWaitLastSeen +'ms'); }
+        if ( enWaitLastSeen > 100) {
+            sleepAsync(enWaitLastSeen).then(function() { EnstylerLastSeenDoDo(); });
+        } else {
+            EnstylerLastSeenDoDo();
+        }
+
+}
 
 // check and get Updates of Enstyler2 CSS ================================
 
 const enUpdateUrl = 'https://userstyles.org/styles/128262/enstyler2-style-your-mydealz.css'; // production version
 
 function enCheckUpdates() {
-  // if FF and enabled
-  if (isMozilla && GM_config.get('enConfInjectCSS')) {
+  // if enabled
+  if (GM_config.get('enConfInjectCSS')) {
     // get time and convert to minutes
-    var myDiff= (Date.now()/60000|0) - GM_getValue('enLastUpdateCheck','0');
-      
+    var myDiff= (Date.now()/enMs2Min) - GM_getValue('enLastUpdateCheck','0');
     // if option set and time expired
-    if(DEBUG) console.error('Update requested, minutes '+enUpdateInterval+' diff '+myDiff); 
-    if (isNaN(myDiff) || myDiff > enUpdateInterval ) {
+    if(DEBUG) console.error('Update requested, intervall '+enUpdateInterval+' minutes , actual diff '+parseInt(myDiff)); 
+    if (myDiff > enUpdateInterval || myDiff < 0) {
         // store actual time
         if(DEBUG) console.error('Update started');
         enUpdateCSS();
@@ -696,8 +729,9 @@ function enCheckUpdates() {
 }
 
 function enUpdateCSS() {
-    var myTime=Date.now()/60000|0 ;
-    enCacheExternalResource( enUpdateUrl + enComposeUpdateOpt(), 'Enstyler2_CSS');
+    var myTime=parseInt(Date.now()/enMs2Min);
+    var myOptions=enComposeUpdateOpt();
+    enCacheExternalResource( enUpdateUrl + myOptions, 'Enstyler2_CSS');
     GM_setValue('enLastUpdateCheck', myTime);
 }
 
@@ -721,16 +755,19 @@ function enComposeUpdateOpt() {
         
            // each Setting has 3 fields seperated by :
            var myField=mySettings[i].split(':');
+           if(myField.length < 2) continue;
            // add &setting=value
+        
            myOptions += '&' +myField[1].slice(0, -1) + '=' + myField[1];
         }
     
      // replace first & by ? and returns string
      myOptions = '?'+myOptions.slice(1);
     
-     if(DEBUG) console.log(myOptions);
+     if(DEBUG) console.error(myOptions);
      return myOptions;
 } 
+
 
 // compose Nav Menu items  =======================================
 // i.e. create button for display Config ======================
@@ -747,7 +784,7 @@ function enComposeUpdateOpt() {
   const enNavEntry='enNavEntry';
   const enMenuItemCode = { Main: '<a class="enNavEntry navMenu-link" id="<ENSTYLER-THREADID-HERE>" href="<ENSTYLER-HREF-HERE>" data-handler="track" data-track="{&quot;action&quot;:&quot;goto_main_target&quot;,&quot;beacon&quot;:true}"><span class="navMenu-link-ico ico ico--type-discussion-navMenuLayerItem navMenu-ico--selected--type-discussion navMenu-ico--hover--type-discussion"></span><ENSTYLER-TEXT-HERE></a>',
                            Sub:  '<li class="enNavEntry subNavMenu-item--separator test-tablink-discussed"><a  href="<ENSTYLER-HREF-HERE>" class="subNavMenu-item subNavMenu-link space--h-4 vAlign--all-m" id="<ENSTYLER-THREADID-HERE>" data-handler="track" data-track="{&quot;action&quot;:&quot;goto_menu_target sort&quot;,&quot;label&quot;:&quot;diskutiert&quot;,&quot;beacon&quot;:true}"><span class="box--all-i size--all-xl vAlign--all-m"><ENSTYLER-TEXT-HERE></span><span class="js-vue-container--threadcount" data-handler="vue" data-vue="{&quot;count&quot;:null}"></span></a></li>',
-                    MainButton: '<a class="enNavEntry navMenu-link" id="<ENSTYLER-THREADID-HERE>"><span class="navMenu-link-ico ico  ico--type-discussion-navMenuLayerText"></span><ENSTYLER-TEXT-HERE></a>',
+                    MainButton: '<a class="enNavEntry navMenu-link" id="<ENSTYLER-THREADID-HERE>"><span class="navMenu-link-ico ico  ico--type-discussion"></span><ENSTYLER-TEXT-HERE></a>',
                      SubButton:  '<li class="enNavEntry subNavMenu-item--separator test-tablink-discussed"><a  class="subNavMenu-item subNavMenu-link space--h-4 vAlign--all-m" id="<ENSTYLER-THREADID-HERE>"><span class="box--all-i size--all-xl vAlign--all-m"><ENSTYLER-TEXT-HERE></span></a></li>'
                          };
   //const const enMenuSub=1; const enMenuSubButton=3;
@@ -756,24 +793,6 @@ function enComposeUpdateOpt() {
   // Enstyler Button
   const EnstylerButton = 'EnstylerButton';
 
-const enMenuLang = { de: { discussion: 'Alle Diskussionen',
-                             enstyler: 'Enstyler Homepage', enhref: 'https://www.mydealz.de/diskussion/enstyler-856062',
-                             settings: 'Enstyler Einstellungen' },
-                    
-                     en: { discussion: 'All discussions', 
-                             enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
-                             settings: 'Enstyler Settings' },
-                     nl: { discussion: 'All discussions', 
-                             enstyler: 'Enstyler Homepage', enhref: 'https://greasyfork.org/de/scripts/24243-enstylerjs',
-                             settings: 'Enstyler Settings' }   
-                   }
-
-const enSiteConfig= { Mydealz: { discussion: '/diskussion/', page: 'Seite '},
-                  Preisjaeger: { discussion: '/diskussion/', page: 'Seite '},
-                           Nl: { discussion: '/discussies/', page: 'Pagina '}
-                       }
-
-function EnstylerSiteConfig(key) { return enLangLocalize('<EN-LANG:' + key + '>', enSiteConfig, enInternationalName); }
 
 // compose default Enstyler Menu
 function EnstylerMenuActions(){
@@ -785,7 +804,7 @@ function EnstylerMenuActions(){
     // add Enstyler Homepage
     EnstylerAddNav('Main', '<EN-LANG:enstyler>', '<EN-LANG:enhref>" target="_blank','enMainHomepage', 'building');
     // add EnstylerJS config
-    EnstylerAddNav('MainButton', '<EN-LANG:settings>', showEnstylerConfig, EnstylerButton, 'page');
+    EnstylerAddNav('MainButton', '<EN-LANG:settings>', showEnstylerConfig, EnstylerButton, 'filter-subNavBg');
     
     // add to Sub Nav
     //EnstylerAddNav(enMenuSubButton, '<EN-LANG:settings>' , showEnstylerConfig, EnstylerButton)
@@ -796,7 +815,9 @@ function EnstylerMenuActions(){
 // nav = menu action
 // text = menu text
 // target = URL to show, in case of Button function to call
-// Icon can be home, tag, scissors, free, discussion (default), building, star, snowflake, page (button), star (button)
+// Icon can be home-navMenuLayerText, tag-navMenuLayerText, scissors-navMenuLayerText, free-navMenuLayerText,
+//             discussion-navMenuLayerText (default), building-navMenuLayerText, star-navMenuLayerText, snowflake-navMenuLayerText,
+//             page-navMenuLayerText (button), star-navMenuLayerText (button) or any regular icon
 var enNavIconPat='--type-discussion';
 
 function EnstylerAddNav(nav,text,target,ID, Icon) {
@@ -885,105 +906,8 @@ function EnstylerNavRemove() {
 const enJSAutoUpdate=GM_info.scriptWillUpdate;
 var enUpdateWindow;
 
-const enConfigLang = {
-   de: { 
-       headline: 'Enstyler - Einstellungen',
-       features: 'Erweiterte Funktionen f&uuml;r Enstyler',
-      configcss: 'CSS Optionen',
-     userscript: 'Update Enstyler',
-        cookies: 'No Cookies',
-      injectcss: 'CSS ohne Stylish laden',
-         config: 'Konfiguration',
-       navfixed: 'feste Haupnavigation',
-      userpopup: 'Popuop f&uuml;r Userinfo', 
-          touch: 'Touch Support aktivieren', 
-         amazon: 'Amazon mobile redirect', 
-     dealaction: 'zus&auml;tzliche Deal Aktionen', 
-         picker: 'Zeige Page Picker', 
-       dealtime: 'Zeige echte Deal Zeit', 
-        mintime: 'wenn &auml;lter als x Stunden',
-        fixhtml: 'fix Deal Text HTML',
-      blacklist: 'Aktiviere Black- / Whitelist', 
-      blackcold: 'Blacklist wenn k&auml;lter als', 
-          black: 'Blacklist - Dealz, Kategorie, @Benutzer, Kommentare', 
-          white: 'Whitelist', 
-        unblack: 'Entferne von Blacklist:',
-           lang: 'Enstyler Sprache w&auml;hlen',
-           save: 'Speichern',
-          close: 'Schlie&szlig;en',
-       // Enstler CSS Config
-        savecss: 'Deine ausgewählten CSS Optionen',
-       howtocss: 'Zum Beibehalten der CSS Optionen "<EN-LANG:save>" klicken ',
-        options: 'Optionen speichern',
-     optnotsave: 'Klicken zum Speichern der Optionen!'
-       },
-   en: {
-       headline: 'Enstyler - Settings',
-       features: 'additonal features for Enstyler',
-      configcss: 'CSS Options',
-     userscript: 'Update Enstyler',
-        cookies: 'No Cookies',
-      injectcss: 'Inject CSS without Stylish',
-         config: 'Configuration',
-       navfixed: 'Display FIXED MainNav', 
-      userpopup: 'Show Popuop Userinfo', 
-          touch: 'Enable Touch Support', 
-         amazon: 'Amazon mobile redirect', 
-     dealaction: 'additional Deal actions', 
-         picker: 'Enable Page Picker', 
-       dealtime: 'Show real Deal Time', 
-        mintime: 'if older than Hours',
-        fixhtml: 'fix Deal Text HTML',
-      blacklist: 'Enable Black- / Whitelist', 
-      blackcold: 'Blacklist if colder then', 
-          black: 'Blacklist - dealz, categories, @users, comments', 
-          white: 'Whitelist', 
-        unblack: 'Remove from blacklist:',
-           lang: 'Select Enstyler Language',
-           save: 'Save',
-          close: 'Close',
-       // Enstler CSS Config
-        savecss: 'Your selected CSS options',
-       howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
-        options: 'Save options',
-     optnotsave: 'Klick to save Options!'
-     },
-   nl: {
-       headline: 'Enstyler - Settings',
-       features: 'additonal features for Enstyler',
-      configcss: 'CSS Options',
-     userscript: 'Update Enstyler',
-        cookies: 'No Cookies',
-      injectcss: 'Inject CSS without Stylish',
-         config: 'Configuration',
-       navfixed: 'Display FIXED MainNav', 
-      userpopup: 'Show Popuop Userinfo', 
-          touch: 'Enable Touch Support', 
-         amazon: 'Amazon mobile redirect', 
-     dealaction: 'additional Deal actions', 
-         picker: 'Enable Page Picker', 
-       dealtime: 'Show real Deal Time', 
-        mintime: 'if older than Hours',
-        fixhtml: 'fix Deal Text HTML',
-      blacklist: 'Enable Black- / Whitelist', 
-      blackcold: 'Blacklist if colder then', 
-          black: 'Blacklist - dealz, categories, @users, comments', 
-          white: 'Whitelist', 
-        unblack: 'Remove from blacklist:',
-           lang: 'Select Enstyler Language',
-           save: 'Save',
-          close: 'Close',
-       // Enstler CSS Config
-        savecss: 'Your selected CSS options',
-       howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
-        options: 'Save options',
-     optnotsave: 'Klick to save Options!'
-     }
-                     }
-const enUnblackText = confLang('unblack') +' <ENSTYLER-TEXT-HERE> Dealz';
-
+const enUnblackText =  enLangLocalize('<EN-LANG:unblack> <ENSTYLER-TEXT-HERE> Dealz', enConfigLang, enLANG);
 function confLang(key) { return enLangLocalize('<EN-LANG:' + key + '>', enConfigLang, enLANG); }
-function getLanguages() { return ['auto', 'de', 'en', 'nl'];}
 
 // define EnstylerJS GM_config elements
 const enJSfieldDefs = {
@@ -993,8 +917,7 @@ const enJSfieldDefs = {
       'label': confLang('configcss'), // Appears on the button
       'type': 'button', // Makes this setting a button input
       'click': function() { // Function to call when button is clicked
-               enUpdateWindow=window.open('https://userstyles.org/styles/128262#style-info',
-                           'UserCSS', 'width=600,height=950,left=0,top=0');
+               enUpdateWindow=window.open('https://userstyles.org/styles/128262','UserCSS', 'left=0,top=0');
                GM_setValue('enLastUpdateCheck', 0)
                }
     },
@@ -1029,24 +952,18 @@ const enJSfieldDefs = {
       'section': [confLang('config'), ''],
         'type': 'hidden', // Makes this setting a hidden input
    },
-    
-   'enConfNavFixed': {
+
+    'enConfNavFixed': {
       'label': confLang('navfixed'), // Appears next to field
       'type': 'checkbox', // Makes this setting a checkbox input
       'default': true // Default value if user doesn't change it
     },
-   // more Deal actions
+    // more Deal actions
    'enConfDealAction': {
       'label': confLang('dealaction'), // Appears next to field
       'type': 'checkbox', // Makes this setting a checkbox input
       'default': true // Default value if user doesn't change it
     },    
-   // enebale popup for Avatar
-   'enConfPopup': {
-      'label': confLang('userpopup'), // Appears next to field
-      'type': 'checkbox', // Makes this setting a checkbox input
-      'default': true // Default value if user doesn't change it
-    },
     // enable Touch support (bigger Avatar, touch on Deal Image)
    'enConfTouch': {
       'label': confLang('touch'), // Appears next to field
@@ -1068,6 +985,12 @@ const enJSfieldDefs = {
       'type': 'checkbox', // Makes this setting a checkbox input
       'default': true // Default value if user doesn't change it
     },
+   // fix bad userhmtl (cut'n paste crap)
+   'enConfFixHtml': {
+      'label': confLang('fixhtml'), // Appears next to field
+      'type': 'checkbox', // Makes this setting a checkbox input
+      'default': true // Default value if user doesn't change it
+    },
 
     // show real Dealtime 
    'enConfDealTime': {
@@ -1075,41 +998,51 @@ const enJSfieldDefs = {
       'type': 'checkbox', // Makes this setting a checkbox input
       'default': true // Default value if user doesn't change it
     },
+/*
     'enConfDealMinTime': {
       'label': confLang('mintime'), // Appears next to field
       'type': 'int', // Makes this setting a text input
       'min': 1, // Optional lower range limit
       'max': 24, // Optional upper range limit
       'size': 4, // Limit length of input (default is 25)
-      'default': 6 // Default value if user doesn't change it
-   },
-    
-   // fix bad userhmtl (cut'n paste crap)
-   'enConfFixHtml': {
-      'label': confLang('fixhtml'), // Appears next to field
-      'type': 'checkbox', // Makes this setting a checkbox input
-      'default': true // Default value if user doesn't change it
+      'default': 1 // Default value if user doesn't change it
     },
-    
+*/
+    'enConfDealMinTime': {
+      'label': confLang('mintime'), // Appears next to field
+      'type': 'select', // Makes this setting a dropdown
+      'options': enSiteConfig['timetime'], // Possible choices
+      'default': '1' // Default value if user doesn't change it
+    },
+
+ 
     // Black/Whitelist input
    'enConfBlackEnable': {
       'label': confLang('blacklist'), // Appears next to field
       'type': 'checkbox', // Makes this setting a checkbox input
       'default': true // Default value if user doesn't change it
     },
+/*
    'enConfHideColder': {
       'label': confLang('blackcold'), // Appears next to field
       'type': 'int', // Makes this setting a text input
       'min': -9999, // Optional lower range limit
       'max': -9, // Optional upper range limit
       'size': 4, // Limit length of input (default is 25)
-      'default': -999 // Default value if user doesn't change it
-   },
+      'default': -19 // Default value if user doesn't change it
+    },
+*/
+   'enConfHideColder': {
+      'label': confLang('blackcold'), // Appears next to field
+      'type': 'select', // Makes this setting a dropdown
+      'options': enSiteConfig['blackcold'], // Possible choices
+      'default': '-20' // Default value if user doesn't change it
+    },
     'enConfBlacklist': {
       'label': confLang('black'), // Appears next to field
       'type': 'text', // Makes this setting a text input
       'size': 70, // Limit length of input (default is 25)
-      'default': 'G.steklo, Bangood, @Admin' // Default value if user doesn't change it
+      'default': confLang('examples') // Default value if user doesn't change it
     },
     'enConfWhitelist': {
       'label': confLang('white'), // Appears next to field
@@ -1127,17 +1060,52 @@ const enJSfieldDefs = {
     {
       'label': confLang('lang'), // Appears next to field
       'type': 'select', // Makes this setting a dropdown
-      'options': getLanguages(), // Possible choices
+      'options': enSiteConfig['languages'], // Possible choices
       'default': ''
     },
-   
-   // used to not destroy saved Enstyler2 Options
-  'saveOpt': { 
-      'type': 'hidden', // Makes this setting a button input
+
+   // part three: EnstylerJS configuration sync options ------ 
+   'syncsection': { // display next section, dont kow why ...
+      'section': [confLang('syncconf'), ''],
+        'type': 'hidden', // Makes this setting a hidden input
+   },
+   'enConfAutoSync': {
+      'label': confLang('autosync'), // Appears next to field
+      'type': 'checkbox', // Makes this setting a checkbox input
+      'default': true // Default value if user doesn't change it
+    },
+    'enConfSyncTime':
+    {
+      'label': confLang('synctime'), // Appears next to field
+      'type': 'select', // Makes this setting a dropdown
+      'options': enSiteConfig['synctimes'], // Possible choices
+      'default': '10'
     },
 
-
+    'enSyncKeyInput': 
+    {
+      'label': confLang('synckey'), // Appears next to field
+      'type': 'text',
+      'size': 16, // Limit length of input (default is 25)
+      'save': false, // This field's value will NOT be saved
+      'default': 'off'
+    },
+    'enConfSyncKey': {
+      'type': 'hidden', // Makes this setting a text input
+      'default': enSyncOff // Default value if user doesn't change it
+    },
+    'enConfSync': {
+      'label': confLang('sync'), // Appears on the button
+      'type': 'button', // Makes this setting a button input
+      'click': function() { // Function to call when button is clicked
+            SyncSettings(); }
+    },
 };
+
+// setings to save / sync    
+const enSaveSettings=[ 'enConfNavFixed','enConfDealAction','enConfTouch','enConfAmazonRedirect','enConfPagePicker',
+                      'enConfFixHtml','enConfDealTime','enConfDealMinTime', 'enConfBlackEnable',  'enConfHideColder',
+                      'enConfBlacklist', 'enConfWhitelist', 'enConfLang','enConfAutoSync' ]
 
 // define EnstylerJS GM_config elements
 const enHomefieldDefs = {
@@ -1158,7 +1126,7 @@ const enHomefieldDefs = {
     {
       //'label': confLang('lang'), // Appears next to field
       'type': 'hidden', // Makes this setting a dropdown
-      'options': getLanguages(), // Possible choices
+      'options': enSiteConfig['languages'], // Possible choices
       'default': ''
     }
 };
@@ -1181,12 +1149,6 @@ function showEnstylerConfig () {
   }    
 }
 
-function showEnstylerCSS () {
-      enGetHome();
-      GM_config.open();
-}
-
-
 const enRemoveConfig = [
            { check: false, switch: 'enConfDealTime',    remove: 'enConfDealMinTime'},
            { check: false, switch: 'enConfBlackEnable', remove: 'enConfWhitelist'},
@@ -1202,6 +1164,146 @@ function confLangOpen() {
     $('.GM_config button[id$="_closeBtn"]').html(enConfigLang[enLANG].close);
 }
 
+
+//========================================
+// SYNC functions
+
+// Save/Sync CSS and Enstyler Settings to server
+const enSettings='enSettings';
+
+function SyncSettings() {
+    // sync CSS and Config Settings via Callback
+    EnGetValue(enCssOpt, enSetValue);
+    EnGetValue(enSettings, enSetSettings);           
+}
+
+function SaveSettings() {
+    if (GM_config.get('enConfInjectCSS')) {
+       EnSaveValue(enCssOpt, GM_getValue(enCssOpt));
+    }
+    // iterate over Settings and save string
+    var settings='';
+    for (val of enSaveSettings) {
+       settings += val + '=' + GM_config.get(val) + '&';
+    }
+    EnSaveValue(enSettings, settings);
+} 
+
+
+// Save/Sync LasteSeen to server
+function SaveLastSeen() {
+    if (enAutoSync) {
+      // delay save x/2 minutes after script start 
+       var dealy=GM_config.get('enConfSyncTime')*enMs2Min/2;
+       var myTime=Date.now()/enMs2Min;
+       var myDiff= myTime - GM_getValue('enLastCheck' + enSec,'0');
+       // if time more than 5 Minutes delay = 500ms
+       if (myDiff > 5 ) { delay=500; }
+       if (DEBUGXX) { console.error('SaveLastSeen '+ 'enLastCheck' + enSec +' dealy: ' + dealy + 'ms'); }
+       sleepAsync(GM_config.get('enConfSyncTime',10)*enMs2Min/2).then(function() {
+                // do save 
+                if(DEBUG) console.error('LastSeen SAVE started');
+                EnSaveValue(enSec, GM_getValue(enSec,''));
+        });
+    }
+} 
+
+var enWaitLastSeen=1;
+
+function SyncLastSeen() {
+  // if enabled
+  if (enAutoSync) {
+    // get time and convert to minutes
+    var myTime=Date.now()/enMs2Min;
+    var myDiff= myTime - GM_getValue('enLastCheck' + enSec,'0');
+    // if option set and time expired
+    if(DEBUG) { console.error('LastSeen '+enSec+' requested, intervall '+enSyncInterval+' minutes , actual diff '+parseInt(myDiff));}
+    if (myDiff > enSyncInterval || myDiff < 0) {
+        enWaitLastSeen=1000; // delay LastSeenDo 500ms if sync is active
+        if(DEBUG) console.error('LastSeeen Update started');
+        // store actual time
+        GM_setValue('enLastCheck' + enSec, myTime);
+        // request last seen
+        EnGetValue(enSec, enSetLastSeen);
+     }
+  }
+}
+
+// Last Seen callback, set settings loaded from server
+function enSetLastSeen(key, value) {
+    enSeenArticle=value;
+    //enSetValue(key, value);
+    enSetValue(key+'Last', value);
+    enWaitLastSeen=1; // reset delay LastSeenDo 
+}
+
+// Sync helper functions
+function checkSyncSettings() {
+    var input=GM_config.fields['enSyncKeyInput'].toValue();
+    // workaround GM BUG 
+    if ( input === null ) { input=$('#undefined_field_enSyncKeyInput').val();}
+    
+    var real=GM_config.get('enConfSyncKey');
+    if (DEBUGXXX) {
+        console.error('enConfSyncKey.input' + input);
+        console.error('enConfSyncKey.saved' + real);
+    }
+    
+    // check for valid key,  reset 'enConfSyncKey' if shorter 6 characters
+    if (input.length < 6 ) {
+        checkSyncReset();
+        input=enSyncOff;
+    }
+    enSyncKey=input;
+    GM_config.fields['enConfSyncKey'].node.value =  input;
+    GM_config.set('enConfSyncKey', input);
+    GM_config.fields['enSyncKeyInput'].value = input;
+    GM_config.fields['enSyncKeyInput'].reload();
+    if (DEBUGXXX) {
+        console.error('enConfSyncKey.value' + GM_config.fields['enSyncKeyInput'].toValue());
+        console.error('enConfSyncKey.saved' + GM_config.get('enConfSyncKey'));
+    }
+
+}
+
+var syncCheckBug=1;
+function checkSyncReset() {
+        if (DEBUG) console.error('checkSyncReset!!');
+        GM_config.fields['enSyncKeyInput'].value = enSyncOff;
+        GM_config.fields['enSyncKeyInput'].reload();
+        $('#undefined_field_enSyncKeyInput').val(enSyncOff);
+        //GM_config.close();
+        if (syncCheckBug > 0) { 
+            $('#undefined_field_enSyncKeyInput').on( "change", function () {
+            checkSyncSettings();
+            });
+            syncCheckBug--;
+        }
+       //GM_config.open();
+
+}
+
+// callback for enGetValue to set settings loaded from server
+function enSetSettings(key, value) {
+    // Save value to greasemonky variable
+    if (DEBUG) { console.error('enSetSettings: '+value); }
+    var array = value.split('&');
+     for (pair of array) {GM_config.set('enConfSyncKey', enSyncOff);
+         val = pair.split('=');
+         if (val.length<2) { continue; }
+         //GM_config.set(val[0], val[1]);
+         GM_config.fields[val[0]].value = val[1];
+         GM_config.fields[val[0]].reload();
+         if (DEBUG) console.error(val[0] + '=' + val[1]);
+     }
+}
+
+
+// ===========================
+// place non userstyle and pepper functions here!
+
+
+// ================ GM_config INIT Starts here ===========
 // GM_Config Init for MyDealz and Enstyler Home
 if (!window.location.hostname.endsWith('userstyles.org')) {
     var enFixedNavLast=false;
@@ -1213,9 +1315,22 @@ if (!window.location.hostname.endsWith('userstyles.org')) {
         fields: enJSfieldDefs,
        'events': // Callback functions object
          {
-          //'init': function() { alert('onInit()'); },
+          'init': function() {
+              GM_config.fields['enSyncKeyInput'].value = GM_config.fields['enConfSyncKey'].value;
+          },
           // remove elements ich switch is checked or not
-          'open': function() { 
+          'open': function(doc) {
+            // init input validation
+            syncCheckBug=1;
+            if (GM_config.get('enConfSyncKey').length <6) {
+                if (DEBUG) { console.error('GM_confit.init enConfSyncKey: '+GM_config.get('enConfSyncKey')); }
+                GM_config.set('enConfSyncKey', enSyncOff);
+                checkSyncReset();
+            }
+            $('#GM_config_field_enSyncKeyInput').on( "change", function () {
+                checkSyncSettings();
+                });
+             // see if fixed nav
              enFixedNavLast=GM_config.get('enConfNavFixed');
              // init lang on open
              confLangOpen()
@@ -1227,10 +1342,9 @@ if (!window.location.hostname.endsWith('userstyles.org')) {
                  }
              });
               
-             // remove / display update dialog
+             // remove / display in some special cases e.g. update
              if (enJSAutoUpdate) {GM_config.fields['enstylerJS'].remove();}
-             if (!isMozilla)     {GM_config.fields['dontCookies'].remove();
-                                  GM_config.fields['enConfInjectCSS'].remove();}
+             if (!isMozilla)     {GM_config.fields['dontCookies'].remove();}
               
           },
           //'reset': function() { alert('reset') },
@@ -1238,6 +1352,7 @@ if (!window.location.hostname.endsWith('userstyles.org')) {
           'save':  function() {
               // save lang selection or '' if auto
               GM_config.get('enConfLang') == 'auto' ? GM_setValue('enLang', '') : GM_setValue('enLang', GM_config.get('enConfLang'))
+              SaveSettings();
               // disable FixedNav can only done with reload
               if (!GM_config.get('enConfNavFixed') && GM_config.get('enConfNavFixed')!=enFixedNavLast) {window.location.reload(false);}
 
@@ -1247,14 +1362,16 @@ if (!window.location.hostname.endsWith('userstyles.org')) {
               EnstylerStart();
               EnstylerMenuActions();
               EnstylerPagePickerCreate();
-              // show changes in config after processing magic
-              GM_config.open();
             },
          'close': function() { enGMConfigOpen=false;},
          },
        'frame': enGMFrame // Element used for the panel
       }
     );
+    // init values read from GM_config vars
+    enSyncKey  = GM_config.get('enConfSyncKey');
+    enAutoSync = GM_config.get('enConfAutoSync');
+    enSyncInterval=GM_config.get('enConfSyncTime', enSyncInterval);
 
 } else {
     // activate config for Enstyler Homepage
@@ -1265,8 +1382,8 @@ if (!window.location.hostname.endsWith('userstyles.org')) {
         fields: enHomefieldDefs,
        'events': // Callback functions object
          {
-          'open':  function() { confLangOpen(); if (!isMozilla) {GM_config.fields['enConfInjectCSS'].remove();}  },
-          'save':  function() { enSetHome(); enUpdateCSS(); EnstylerHomeButton(); GM_config.close(); },
+          'open':  function() { confLangOpen(); },
+          'save':  function() { enSendCSS(); enSetHome(); enUpdateCSS(); EnstylerHomeButton(); GM_config.close(); },
           'close': function() { enGMConfigOpen=false; },
          },
        'frame': enGMFrame // Element used for the panel
@@ -1334,14 +1451,33 @@ function EnstylerStart() {
 
 // delayed actions after finishing everything else
 function EnstylerDelayedInit() {
+           // calc colors and topx
+           var myBgColor=$('.nav').css('background-color');
+           var myButtonColor=shadeRGBColor($('.btn--mode-special').first().css('background-color'), 0.1);
+           var myColor=shadeRGBColor(myBgColor, 0.7);
+           addStyleString(
+                  // set Panel background color to nav background, text color to 70% brigther
+                 ' .GM_config {background-color: '+ myBgColor + ' !important; color: '+ myColor + '; top: '+ enMainHeigth +'px !important;}'
+                 // set section header background color to nav -30%, text color to 70% brigther
+               + ' .GM_config .section_header {background-color: '+ shadeRGBColor(myBgColor, -0.25) +' !important; color: '+ myColor +' !important;}'
+                 // set main nav background hover effekt to nac background +10%
+               + ' .nav-link-text:hover, .js-navDropDown-messages:hover, .js-navDropDown-activities:hover  { background-color: ' 
+                          + shadeRGBColor(myBgColor, 0.1) + ' !important;}'
+                 // adjust panel button colors to add deal button color
+               + ' .GM_config input[type=button] { background-color: ' + myButtonColor + ' !important; border-color: ' 
+                          + myButtonColor + ' !important; min-width: 10em;}'
+               + ' .GM_config input[type=button]:hover, .btn--mode-special:hover { background-color: ' + shadeRGBColor(myButtonColor, 0.2)
+                          + ' !important; border-color: ' + shadeRGBColor(myButtonColor, 0.2) + ' !important;}'
+               );
+
            // don't know why, but works only if called with delay ...
            EnstylerMenuActions();
            EnstylerPagePickerCreate();
-        
+
           // track DOM change Events, debounce: wait 1000ms after mutiple events
           // then re-apply (somse) changes to dynamic loaded content, 
-         // $('.cept-event-deals, .thread-list--type-card').bind("DOMSubtreeModified",$.debounce( 400, function(){
-         $('.js-pagi-bottom').bind("DOMSubtreeModified", debounce( 100, function(){
+          // $('.cept-event-deals, .thread-list--type-card').bind("DOMSubtreeModified",$.debounce( 400, function(){
+          $('.js-pagi-bottom').bind("DOMSubtreeModified", debounce( 100, function(){
               if(DEBUG) {var ts=Date.now(), t0 = Date.now(), t1;}
               EnstylerLastSeenDo();
               EnstylerPagePickerDo();
@@ -1361,62 +1497,61 @@ function EnstylerDelayedInit() {
                          console.error("Call dealaction took ms: " + (t1 - t0) );
                         }
               if(DEBUG) console.error('DOMSubtreeModified took ms: '+ (t1 - ts));
-             
-          }));
+        }));
     }
 
-//=============== Main functions START @ DOM READY ==========================================
-// normally scriptmis started at DOM ready, we try early as possible after document start
-// HACK: wait for BASIC DOM is availible, then run
-WaitForBody(); 
-
+//=============== MAIN function START @ DOM READY =============================================
+// normally script is started at DOM ready, we try early as possible inject css after document start
+// HACK: wait for *MINIMAL* needed DOM is availible
 function WaitForBody () {
-    // wait for footer
-    if (!$('footer').length) { 
-       setTimeout(WaitForBody, 200); // give everything some time to render
+    // element 'section' is needed, 'footer' as fallback
+    if ($('section, footer').length) {
+        // inject cached userstyle as early as possible
+       if (GM_config.get('enConfInjectCSS')) addStyleString(GM_getValue('Enstyler2_CSS',''), 'domain("' + enLocParser.hostname);
+       
+        // disable script if regex matches pathname
+       if (enLocParser.pathname.match(enDisableScript)) {
+           console.error("disable Enstyler for path: " + enLocParser.pathname);
+           console.error("regex: " + enDisableScript.toString());
+           return;
+       }
+       // wait until DOM Ready to start MAIN 
+       WaitForDOM ()
     } else {
-       MAIN();
+       setTimeout(WaitForBody, 10); // give some time to create DOM body
     }
 }
 
-function MAIN() {        
-  // MAIN          
+//HACK2: wait for footer is avail aka near DOM READY
+function WaitForDOM () {
+    // footer is last (visible) element on page
+    myColor=$('.nav, #navigation').css('background-color').replace(/rgba.*/, "");
+    if ($('.vwo-deal-button, #footer').length && !myColor=="") {
+        // start MAIN on DOM Ready
+        MAIN();
+    } else {
+       if (DEBUG) {console.error(myColor)}
+       setTimeout(WaitForDOM, 100);
+    }
+}
+
+function MAIN() {
   // HERE WE GO!
   if(DEBUG) enInitTime = performance.now() - enInitTime;
   if(DEBUG) console.error('Inittime: ' + enInitTime + ' ms');
 
-  // add frame and style to body 
-  document.body.appendChild(enGMFrame);
-
   // script time mesurement starts here
   const EnstylerStartTime=Date.now();
+  if (DEBUG) console.error('Start Init');
+  EnstylerInit();
+  if (DEBUG) console.error('Start CheckUpdate');
+  enCheckUpdates();
 
-  // if pepper site, do some initial pepper stuff
-  if ($('.nav').length){
-    // inject userstyle directly. no more userstyle needed!
-    if (GM_config.get('enConfInjectCSS')) addStyleString(GM_getValue('Enstyler2_CSS',''), 'domain("' + enLocParser.hostname);
-    enCheckUpdates();
- 
-    // calc colors and topx, give some time to apply injected CSS
-    // enMainHeigth = parseInt($('header').outerHeight()); //jquery
-    // workaround for zepto (no .outerHeigth())
-    enMainHeigth = getOuterHeight('header');
-      
-    sleepAsync(1000).then(function() {
-           var myBgColor=$('.nav').css('background-color');
-           var myButtonColor=$('.btn--mode-special').first().css('background-color');
-           addStyleString(' .GM_config {background-color: '+ shadeRGBColor(myBgColor, -0.30) + ' !important; color: '+ shadeRGBColor(myBgColor, 0.50)
-               + '; top: '+ enMainHeigth +'px !important;}' 
-               + ' .nav-link-text:hover, .js-navDropDown-messages:hover, .js-navDropDown-activities:hover  { background-color: ' +shadeRGBColor(myBgColor, 0.11)+ ' !important;}'
-               + ' .GM_config input[type=button] { background-color: ' + myButtonColor + ' !important; border-color: ' + myButtonColor + ' !important; min-width: 10em;}'
-               + ' .GM_config input[type=button]:hover, .btn--mode-special:hover { background-color: ' + shadeRGBColor(myButtonColor, 0.30) + ' !important; border-color: ' + shadeRGBColor(myButtonColor, 0.30) + ' !important;}'
-               )
-           });
-  } 
-    
-  // add predefined styles
+ // add predefined styles
   addStyleString(enCSS);
 
+  // add frame for GM_config to body
+  document.body.appendChild(enGMFrame);
 
   // EnstylerJS START ============================================
 
@@ -1424,36 +1559,37 @@ function MAIN() {
    // Enstyler internal Startup functions ======================
    // HACK: we are NOT on Amazon
    if (enAmazonMobileRedirect()) {
-    
+    // get main color and set main BG color
+    var myBGColor=shadeRGBColor($('.bg--main').css('background-color'), -0.08);
+    addStyleString('.bg--off {background-color: ' +myBGColor + '!important;}');
+    // workaround for zepto (no .outerHeigth())
+    // enMainHeigth = parseInt($('header').outerHeight()); //jquery
+    enMainHeigth = getOuterHeight('header');
     // =============== MAIN: START EnstyerJS ===================
-    EnstylerInit();
     EnstylerStart();
     EnstylerStartupDelay=Date.now()-EnstylerStartTime;
     if(DEBUG) console.error('Startup in ms: ' +EnstylerStartupDelay)
      
     // wait until page is loaded completely
-    if (document.readyState == 'loading' || document.readyState == 'interactive'){  // Greasemonkey and Tampermonky -> runs script on DOM ready -> wait for load
-        $(window).bind("load", function() { EnstylerDelayedInit(); });
-    } 
-    else { // if script run on page loaded -> give some time to finish rendering
-         sleepAsync(EnstylerStartupDelay).then(function() { EnstylerDelayedInit(); });
-    }
+    EnstylerDelayedInit();
+       
    } // END EnstylerJS 
 
-
-
+      
   } else {
     // ============== MAIN2: we are on USERSTYLE ===================
     if (DEBUG) console.error('On Userstyle ...')
-    // inject userstyle directly (experimental)
+    // inject userstyle directly
     if (GM_config.get('enConfInjectCSS')) addStyleString(GM_getValue('Enstyler2_CSS',''), 'url(https://userstyles.org');
       
     // START Enstyler 2 Homepage
     EnstylerHomeButton();
+    setUserClick()
     // set saved options
     enSetHome();
-    // if FF and enabled
-    if (isMozilla && GM_config.get('enConfInjectCSS')) addStyleString('.install-status { display: none; }'); 
+    // if enabled
+    if (GM_config.get('enConfInjectCSS')) addStyleString('.install-status { display: none; }'); 
+    if (enLocParser.hash=='#style-info') showNotSaved()
 
   }
 
@@ -1467,19 +1603,43 @@ var input = document.createElement('input');
     input.onclick = showEnstylerCSS;
     input.value = confLang('options');
 
-function EnstylerHomeButton() {
-        $('#'+EnstylerButton).remove()
+function showEnstylerCSS () {
+      enGetHome();
+      GM_config.open();
+}
 
-        input.setAttribute('style', 'font-size: 1.1em; padding: 0.8em;');  
-        $('#style-settings').after(input);
+function EnstylerHomeButton() {
+        $('#advancedsettings_area').attr('class' ,'advancedsettings_shown');
+        $('.advanced_button').remove();
+        $('select, input').unbind();
+        //$('.setting_div').each(function() {
+        //    if( $(this).has("input").length ) return;
+        //    $(this).html( $(this).html().replace( /<\/?div>/gi, '') );
+        //});
+        input.setAttribute('style', 'font-size: 1.1em; padding: 0.8em;');
+        $('#button_middle').after(input);
+        window.scrollTo(0, 600);
     }
 
+function setUserClick() {
+    $('#setting-455195').change(HideShowLogoSelect);
+    $('#setting-451668').change(HideShowEnstyler);
+}
+
+
+// read values from options
 function enGetHome() {
         var myOptions='', myID, myValue, myText;
         $('#style-settings select').each(function() {
             myID = $(this).attr(enID);
             myValue = $(this).val();
             myText  = $('option[value='+ myValue +']').text();     
+            myOptions +='#' + myID + ':' + myValue +':' + myText +';\n';
+        });
+        $('#style-settings input[type=text]').each(function() {
+            myID = $(this).attr(enID);
+            myValue = $(this).val();
+            myText  = "RGB-Clolor";     
             myOptions +='#' + myID + ':' + myValue +':' + myText +';\n';
         });
         $('#style-settings input:checked').each(function() {
@@ -1489,14 +1649,18 @@ function enGetHome() {
             myOptions +='#' + myID + ':' + myValue +':' + myText +';\n';
         });
        GM_config.set('saveOpt', myOptions);
+       GM_setValue(enCssOpt, myOptions);
+       EnSaveValue(enCssOpt, myOptions);
     }
-    
+
+//set values from stored options    
 function enSetHome() {
         input.value = confLang('options');
         // get saved options,remove newlines and split to settings array
-        var myOptions=GM_config.get('saveOpt');
-        GM_setValue(enCssOpt, myOptions);
-    
+        //var myOptions=GM_config.get('saveOpt');
+        //GM_setValue(enCssOpt, myOptions);
+         var myOptions=GM_getValue(enCssOpt, '');
+
         // if(DEBUG) console.error('Saved Options: ' + myOptions);
         myOptions=myOptions.replace(/\n/g,'');
         var mySettings = myOptions.split(';');
@@ -1509,19 +1673,19 @@ function enSetHome() {
            // each Setting has 3 fields seperated by :, but only 2 used
            var myField=mySettings[i].split(':');
 
-           if (myField[0].match(/^#setting/i)) {
-                // select 
+           if (myField[0].startsWith('#setting')) {
+                // text input, select
                 $(myField[0]).val('');
                 $(myField[0]).val(myField[1]);
             } else if (myField[0].startsWith('#option')) {
                 // option
                 $(myField[0]).prop('checked', true);
             } else {
-                if (myField[0] != '') {alert('unkown option: "' + myField +'"');}
+                if (myField[0] != '') {console.error('ignoring unkown option: "' + myField +'"');}
             }
         }
         // if FF and inject enabled
-        if (isMozilla && GM_config.get('enConfInjectCSS')) { 
+        if (GM_config.get('enConfInjectCSS')) { 
            addStyleString('.install-status { display: none; }');
         } else {
            addStyleString('.install-status { display: inline; }');           
@@ -1529,21 +1693,19 @@ function enSetHome() {
         // update shown otions
         HideShowLogoSelect();
         HideShowEnstyler();
-    } 
-    
+    }
+
     // close Window after Click on Update
 function closeOnClick () {
        sleepAsync(10000).then(function() { window.close(); });
     }
-    $(".install").click(closeOnClick);
 
     // show if options not saved
 function showNotSaved() {
-        input.value = confLang(optnotsave);
+        input.value = confLang('optnotsave');
         EnstylerHomeButton();
     }
-    $("#style-settings").click(showNotSaved);
-    
+   
 function ShowHideItem(selectID, hideVal, jqSelektor, text) {
      // emulate :contains, because not avail in zepto
      $('#style-settings '+jqSelektor).each(function() {
@@ -1557,25 +1719,92 @@ function ShowHideItem(selectID, hideVal, jqSelektor, text) {
           }
       });
     }
-        
     // remove / display logo selection
 function HideShowLogoSelect() { ShowHideItem('#setting-455195', 'ik-logo1', 'label', 'MyDealz Logo' ); }
-    $('#setting-455195').change(HideShowLogoSelect);
-    
     // remove / display enstyler options 
-function HideShowEnstyler() { ShowHideItem('#setting-451668', 'ik-compact1', 'label', '|---' ); }
-    $('#setting-451668').change(HideShowEnstyler);
+function HideShowEnstyler() { ShowHideItem('#setting-451668', 'ik-compact1', 'label', '... ' ); }
+
+//UGLY HACK for mozilla and USI REMOVE if USI fix cross domain GM_setValue!! =============
+//send CSS settings cross domain
+function enSendCSS() {
+    //convert options to query string and call dummy page
+    // only if: on Mozilla, URL contains CSS parameter and USI detected
+    if(isMozilla && enLocParser.hash=='#style-info') {
+        if(typeof GM_info.scriptHandler === "string" && GM_info.scriptHandler.match(/usi/i))
+            window.open( document.referrer + '/1/'+enComposeCSS());
+    }
+}
+
+//UGLY HACK: catch CSS values with firefos and USI ================
+if(!enLocParser.hostname.endsWith('usertyle.org') && enLocParser.search.match(/ik-maxwidth/i)) {
+    enCatchCSS();
+}
+function enCatchCSS() {
+    // catch CSS save request from usertyle
+    var catchCss = enLocParser.search.replace(/\?/, '#').replace(/=/g, ':').replace(/\&|$/g, ':notext;\n#');
+    GM_setValue(enCssOpt, catchCss);
+    GM_setValue('enLastUpdateCheck', 0);
+    window.close();
+    
+}
+
+function enComposeCSS() {
+    // get saved options, remove newlines and split to settings array
+    var myOptions=GM_getValue(enCssOpt, '');
+
+    // abort if no options found
+    if (myOptions=='' || !myOptions.startsWith('#')) {return "";}
+
+    myOptions=myOptions.replace(/\n/g,'');
+    var mySettings = myOptions.split(';');
+
+    // start composing options
+    myOptions='';
+    for (var i=0; i< mySettings.length; i++) {
+           //if(DEBUG) console.error('process:' + mySettings[i]);
+           if(mySettings[i]=='') continue;
         
+           // each Setting has 3 fields seperated by :
+           var myField=mySettings[i].split(':');
+           if(myField.length < 2) continue;
+           // add &setting=value
+        
+           myOptions += '&' +myField[0] + '=' + myField[1];
+        }
+    
+     // replace first & by ? and returns string
+     myOptions = '?'+myOptions.slice(1).replace(/#/g, '');
+    
+     //if(DEBUG)
+         console.error(myOptions);
+     return myOptions;
+} 
+
+// END USI HACK ======================================================================
+
 //=========== Support functions for actual use ======
 
+
+// get global site defaults
+function EnstylerSiteConfig(key) { return enGetSiteConfig(enInternationalName, key); }
+
+function enGetSiteConfig(site, key) {
+    return (enSiteConfig.hasOwnProperty(site) && enSiteConfig[site].hasOwnProperty(key)) ? enSiteConfig[site][key] : '';
+}
 
 // translate/replace text by strings given in object trans[lang]
 // assoc object: trans{ lang: { field: 'string', ... }, lang2: { field: 'string2', ... } }
 function enLangLocalize(text, trans, lang) {
+    // check if lang exist. if not set to english
+    if (!enDealLang.hasOwnProperty(lang)) { lang='de'}
     // iterate over trans replace by idea from
     // http://stackoverflow.com/questions/7192436/
     text=text.replace(enLangPat,
                   function(match,key){
+                    if (DEBUGXXX) {
+                        console.error('enLangLocalize: ' +text+' '+[key]+' '+lang);
+                        console.error('enLangLocalize: '+ (trans.hasOwnProperty(lang)) ? trans[lang] : "Does not exist!");        
+                        };
                     // if key exist return translation, else key
                     return (trans.hasOwnProperty(lang) && trans[lang].hasOwnProperty(key)) ? trans[lang][key] : key;
                   });
@@ -1584,7 +1813,7 @@ function enLangLocalize(text, trans, lang) {
 }
 
 
-    
+
 // add CSS in to document
 // new: remove moz-document rules
 const enUserScript = { detect: /.*?@-moz-document .*?\{\s*/,
@@ -1592,33 +1821,50 @@ const enUserScript = { detect: /.*?@-moz-document .*?\{\s*/,
                        next:   /}\s*@-moz-document.*/,
                        //repeat: /}\s*@-moz-document.*?{/g,
                        //end:    /}\s*$/
-                        }
+                      }
+const enCSSmax=16100; // split CSS if longer then
 
-function addStyleString(str, part) {
-    if (typeof part === 'undefined') part='';
-    // check if userscript and extract part
+function addStyleString(str, host) {
+    if (typeof host === 'undefined') host='';
+    // check if style contains @-moz-document rules
     if (str.match(enUserScript['detect'])) {
-       // if part is given extract only part else extract for actual site
-       if (part=='') { part= enLocParser.hostname; }
+       // if no host is given use actual hostname
+       if (host=='') { host= enLocParser.hostname; }
        
        //split userstyle in parts
-       var myPart = str.split(part); 
-       str='';
+       var myPart = str.split(host); 
        
-       // extract parts
+       // recreate style string for host from parts
+       str='';
        for (var i=1; i< myPart.length; i++) {
            // skip parts with no CSS
-           if (!myPart[i].includes('{')) continue;
+           if (myPart[i].indexOf('{') == -1) continue;
            str += myPart[i].replace(enUserScript['split'],'').replace(enUserScript['next'],'');
        }
-       //if (DEBUG) console.log(str);
-
+     }
+    
+    // split long style to avoid caching problems on andoid
+    // while remaining string is longer than exCSSmax and we can split
+    var myPos, myStart=0, mySplit=enCSSmax;
+    while (str.length > mySplit && 
+              (myPos=str.substring(mySplit).indexOf('}.')) > 0) {
+        // add substring of style
+        addStyleString(str.slice(myStart, mySplit+= myPos+1));
+        // adjust for next Start
+        myStart=mySplit;  mySplit+=enCSSmax;
     }
-
+    
+    // add style string to document
+    if(DEBUG) {
+        console.error('applyed style length: ' + (str.length - myStart));
+        //console.error(str.slice(myStart));
+        }
+    
     var node = document.createElement('style');
-    node.innerHTML = str;
+    node.innerHTML = str.slice(myStart);
     document.body.appendChild(node);
 }
+
 
 function capitalizeFirstLetter(string) {
     return string[0].toUpperCase() + string.slice(1);
@@ -1654,6 +1900,8 @@ function sleepAsync(e) {
 //darkerColor = shadeRGBColor(color, -0.25); //  rgb(47,98,122)
 
 function shadeRGBColor(color, percent) {
+    if (typeof percent === "undefined") { percent=0.1; }
+    if (typeof color === "undefined") { return("rgba(0,0,0,0)"); }
     var f=color.split(","),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=parseInt(f[0].slice(4)),G=parseInt(f[1]),B=parseInt(f[2]);
     return "rgb("+(Math.round((t-R)*p)+R)+","+(Math.round((t-G)*p)+G)+","+(Math.round((t-B)*p)+B)+")";
 }
@@ -1685,17 +1933,25 @@ function enCacheExternalResource(stylesheet_uri, GM_variable) {
     GM_xmlhttpRequest({
         method: "GET",
         url: stylesheet_uri,
-    
         onload: function(response) {
             //we get the file!, remove linebreaks and strip simple /*comments */
             var myResponse=response.responseText.replace(/\r\n/g, ' ').replace(enStripComments, '').replace(enFixCSS, "100%");
-           
-            
-            if (DEBUG) console.log(myResponse);
-            GM_setValue(GM_variable, '');
+            if (DEBUG) console.error([
+              response.status,
+              response.statusText,
+              response.readyState,
+              response.finalUrl,
+              stylesheet_uri,
+              GM_getValue(enCssOpt, ''),
+              response.responseHeaders
+              ].join("\n")+'\n'+ myResponse.replace(/.*?(btn--mode-special[^}]*).*/, '$1}'));
+
             GM_setValue(GM_variable, myResponse);
             addStyleString(myResponse);
-        }
+        },
+       onerror: function(response) {
+           alert(confLang('cssfailed'));
+       }
    });
 }
 
@@ -1711,38 +1967,135 @@ function getOuterHeight(el) {
   return Math.ceil(el.offsetHeight + margin);
 }
 
-/*
+// translate query string with google chrome translation service
+// client=gt    google translation for chrome
+// sl= source lang, tl= target lang,    dt=t do tranlation ;-)
+// q=   URI encoded query string to translate from sl to tl
 
-{
-  var _xhr = window.XMLHttpRequest;
-  var has_cred = false;
-  if (DEBUG) console.error('enCacheExternal URI: '+stylesheet_uri)
-  try {has_cred = _xhr && ('withCredentials' in (new _xhr()));} catch(e) {}
-  if (!has_cred) {
-    console.error('CORS not supported');
-    return;
-  }
-  var xhr = new _xhr();
-  xhr.open('GET', stylesheet_uri);
-  xhr.onload = function() {
-    xhr.onload = xhr.onerror = null;
-    if (xhr.status < 200 || xhr.status >=300) {
-      console.error('style failed to load: ' + stylesheet_uri)
-    } else {
-      // modified to save to GM_variable!
-      var myResponse=xhr.responseText.replace(/\r\n/g, ' ').replace(enStripComments, '');
-      if (DEBUG) console.log(myResponse);
-      GM_setValue(GM_variable, myResponse);
-      addStyleString(myResponse);
-    };
-    xhr.onerror = function() {
-      xhr.onload = xhr.onerror = null;
-      console.error('XHR CORS CSS fail:' + styleURI);
-    };
-  }
-    xhr.send();
+const enTranslateQuery='https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=<ENSTYLER-LANG-HERE>&dt=t&q=<ENSTYLER-HTML-HERE>';
+
+// parameter jquery/javascript obj
+// translates text up to first <a> or <img> tag, max translation length is 300 chars
+const enMaxTrans=300;
+
+function enTranslateText(thisObj) {
+     // no translation needed
+    if (enLANG==enSiteLANG || !thisObj.length) { return; }
+    // get HTML, remove linebraks and tabs
+    var text=thisObj.html().replace(/\n|\r|\t/g, '');
+    // split text/HTML on link or img tag
+    var html=text.replace(/.*?(<[ai].*)/, "$1"); if (html===text) { html="";}
+    var text=text.replace(/<(a|i).*$/, "");      if (text==="") {text=html; html="";}
+    // abort on max translation length
+    if (text.length > enMaxTrans) { 
+        if (DEBUG) { console.error('translation to long:' + text); }
+        return;
+    }
+    // create query string
+    var query=enTranslateQuery //.replace(/<ENSTYLER-SITELANG-HERE>/, enSiteLANG)
+            .replace(/<ENSTYLER-LANG-HERE>/, enLANG).replace(/<ENSTYLER-HTML-HERE>/, encodeURI(text));
+    // request translation from google
+    var ret = GM_xmlhttpRequest({
+        method: "GET",
+        url: query,
+        onload: function(res) {
+            // read JSON rsponse --- 
+            var trans=eval("(" + res.responseText + ")")[0][0][0];
+            try {
+                // sometimes translation is diveded in many parts
+                for (x = 1; x < 5; x++) {
+                    trans += eval("(" + res.responseText + ")")[0][x][0];
+                }
+            } catch(e){ /*Nothing happens here*/; }
+            // ... assining to thisObj
+            thisObj.html(trans +' '+ html);
+            if (DEBUG)  {
+                console.error('Translate from: ' + text);
+                console.error('===> '+ trans +' '+ html); // eval("(" + res.responseText + ")"));
+            }
+        }
+    });
 }
-    
+
+// save given value string on RRR webserver
+const enSaveURL='https://dealz.rrr.de/enstyler/save.php?';
+var enSaveUrlLast='';
+
+function EnSaveValue(key,value) {
+    if (enUserName != '' && enSyncKey != enSyncOff ) {
+        // compose URL and return if duplicate to avoid traffic
+        var userkey=enUserName + ':' + enSyncKey + '&key=' + key;
+        if (userkey+value == enSaveUrlLast) { return; }
+        enSaveUrlLast=userkey+value;
+        var save=enSaveURL + 'ID=' + sha256_hex(userkey) + '&value=' +  enEncrypt(value);
+        // save value to webserver
+        if(DEBUGXX) { 
+            console.error('EnSaveValue URL: ' + save);
+            console.error('EnSaveValue Key: ' + key + ' Value: ' +  value );
+        }
+        // simplest possible request log param only
+        GM_xmlhttpRequest({
+          method: "GET",
+          url: save
+          }
+        );    
+    }
+}
+
+
+
+// load given value string FROM RRR webserver and execute given funktion as callback
+// const enGetURL='https://dealz.rrr.de/enstyler/load.php?';
+
+function EnGetValue(key,callback) {
+    if (enUserName == '') { enUserName = GM_getValue('enConfSyncUser'); }
+    if (DEBUGXXX) { console.error('enGetValue user: '+enUserName+ ' SyncID: ' + enSyncKey+ ' key: '+ key); }
+    if (enUserName != '' && enSyncKey != enSyncOff ) {
+        var get='https://dealz.rrr.de/enstyler/load.php?' + 'ID=' + sha256_hex(enUserName + ':' + enSyncKey + '&key=' + key);
+        if(DEBUGXX) { console.error('EnGetValue: ' + get); }
+        // fallback if not function provided
+        // if (typeof callback !== "function") { callback=enSetValue; }
+        // request key value from server
+        GM_xmlhttpRequest({
+          method: "GET", 
+          url: get,
+          onload: function(response) {
+              if (DEBUGXX)  { console.error('EnCallback Key: ' + key + ' status=' + response.status); }   
+              // call callback function if status is 200
+              if (response.status === 200 && response.responseText.length > 5) {
+                  if (DEBUGXX) { console.error('EnCallback Value: '+ enDecrypt(response.responseText)); }
+                  callback( key, enDecrypt(response.responseText));
+                  }  else if (DEBUGXX) {
+                      console.error('EnCallback Value: No stored value for ' + key);
+                  }
+              }
+        });    
+    }
+}
+
+// default callback for enGetValue to set key to value from server
+function enSetValue(key, value) {
+    // Save value to greasemonky variable
+    if (DEBUGXX) { 
+        console.error('enSetValue '+key+' old: '+GM_getValue(key)+ ' new: '+value);
+    }
+    GM_setValue(String(key), String(value));
+}
+
+function enEncrypt(string){
+    return btoa(sjcl.encrypt(sha256_hex(enUserName + ':' + enSyncKey), string));
+}
+
+function enDecrypt(string){
+    return sjcl.decrypt(sha256_hex(enUserName + ':' + enSyncKey), atob(string));
+}
+
+function sha256_hex(string) {
+    return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(string));
+}
+
+// RUN Enstyler MAIN
+WaitForBody(); 
 
 // =========== Support functions for LATER use not needed for production !!!
 
@@ -1784,6 +2137,29 @@ function versionCompare(v1, v2) {
 
     if (v1parts.length != v2parts.length) { return -1; }
     return 0;
+}
+
+function toHex(string) {
+    var hex, i;
+
+    var result = "";
+    for (i=0; i<string.length; i++) {
+        hex = string.charCodeAt(i).toString(16);
+        result += ("000"+hex).slice(-4);
+    }
+
+    return result
+}
+
+function fromHex(hex) {
+    var j;
+    var hexes = hex.match(/.{1,4}/g) || [];
+    var back = "";
+    for(j = 0; j<hexes.length; j++) {
+        back += String.fromCharCode(parseInt(hexes[j], 16));
+    }
+
+    return back;
 }
 
 */
