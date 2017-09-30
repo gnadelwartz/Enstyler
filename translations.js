@@ -73,7 +73,7 @@ const enConfigLang = {
            lang: 'Enstyler Sprache w&auml;hlen',
        syncconf: 'Konfiguration synchronisieren',
        autosync: 'Autosync letzter Deal',
-       cssdealz: 'CSS in Link einf&uuml;gen',
+       cssdealz: 'CSS im geteilten Link laden',
         synckey: 'SyncID (6+ Zeichen / \'off\')',
            sync: 'Synchronisieren',
        synctime: 'nach x Minuten',
