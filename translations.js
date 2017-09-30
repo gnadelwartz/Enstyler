@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.09.011
-// Date: 2016-09-18
+// Version: 3.09.301
+// Date: 2016-09-30
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -73,6 +73,7 @@ const enConfigLang = {
            lang: 'Enstyler Sprache w&auml;hlen',
        syncconf: 'Konfiguration synchronisieren',
        autosync: 'Autosync letzter Deal',
+       cssdealz: 'CSS in Link einf&uuml;gen',
         synckey: 'SyncID (6+ Zeichen / \'off\')',
            sync: 'Synchronisieren',
        synctime: 'nach x Minuten',
@@ -113,6 +114,7 @@ const enConfigLang = {
            lang: 'Select Enstyler Language',
        syncconf: 'Configuration Sync Settings',
        autosync: 'Autosync last deal',
+       cssdealz: 'Inject CSS in shared Link',
         synckey: 'SyncID (6+ char. or \'off\')',
            sync: 'Synchonize',
        synctime: 'after x minutes',
@@ -153,6 +155,7 @@ const enConfigLang = {
            lang: 'Selecteer Enstyler taal',
        syncconf: 'Configuration Sync Settings',
        autosync: 'Autosync laatste Deal',
+       cssdealz: 'Spuit CSS in gedeelde link',
         synckey: 'SyncID (6+ laders / \'off\')',
            sync: 'Synchoniseren',
        synctime: 'na x minuten',
