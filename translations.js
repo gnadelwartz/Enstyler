@@ -49,7 +49,7 @@ const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
 const enConfigLang = {
    de: { 
        headline: 'Enstyler - Einstellungen',
-       features: 'Erweiterte Funktionen Enstyler',
+       features: 'Erweiterte Funktionen',
       configcss: 'CSS Optionen',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
