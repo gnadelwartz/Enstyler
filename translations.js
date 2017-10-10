@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.09.301
-// Date: 2016-09-30
+// Version: 3.10.101
+// Date: 2016-10-10
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -49,7 +49,7 @@ const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
 const enConfigLang = {
    de: { 
        headline: 'Enstyler - Einstellungen',
-       features: 'Erweiterte Funktionen f&uuml;r Enstyler',
+       features: 'Erweiterte Funktionen Enstyler',
       configcss: 'CSS Optionen',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
@@ -58,7 +58,7 @@ const enConfigLang = {
        navfixed: 'feste Haupnavigation',
       userpopup: 'Popuop f&uuml;r Userinfo', 
           touch: 'Touch Support aktivieren', 
-         amazon: 'Amazon mobile redirect', 
+         amazon: 'Mobile redirect', 
      dealaction: 'zus&auml;tzliche Deal Aktionen', 
          picker: 'Zeige Page Picker', 
        dealtime: 'Zeige echte Deal Zeit', 
@@ -71,7 +71,7 @@ const enConfigLang = {
           white: 'Whitelist', 
         unblack: 'Entferne von Blacklist:',
            lang: 'Enstyler Sprache w&auml;hlen',
-       syncconf: 'Konfiguration synchronisieren',
+       syncconf: 'Synchronisation',
        autosync: 'Autosync letzter Deal',
        cssdealz: 'CSS im geteilten Link laden',
         synckey: 'SyncID (6+ Zeichen / \'off\')',
@@ -90,7 +90,7 @@ const enConfigLang = {
   
    en: {
        headline: 'Enstyler - Settings',
-       features: 'additonal features for Enstyler',
+       features: 'Additonal features',
       configcss: 'CSS Options',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
@@ -112,7 +112,7 @@ const enConfigLang = {
           white: 'Whitelist', 
         unblack: 'Remove from blacklist:',
            lang: 'Select Enstyler Language',
-       syncconf: 'Configuration Sync Settings',
+       syncconf: 'Sync Settings',
        autosync: 'Autosync last deal',
        cssdealz: 'Inject CSS in shared Link',
         synckey: 'SyncID (6+ char. or \'off\')',
@@ -153,7 +153,7 @@ const enConfigLang = {
           white: 'Whitelist', 
         unblack: 'Verwijderen van blacklist:',
            lang: 'Selecteer Enstyler taal',
-       syncconf: 'Configuration Sync Settings',
+       syncconf: 'Sync Settings',
        autosync: 'Autosync laatste Deal',
        cssdealz: 'Spuit CSS in gedeelde link',
         synckey: 'SyncID (6+ laders / \'off\')',
