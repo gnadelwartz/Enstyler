@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.10.101
-// Date: 2016-10-10
+// Version: 3.10.132
+// Date: 2016-10-13
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -15,6 +15,7 @@ const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: '
                      timetime: [ '0', '0.5', '1', '2', '3', '6', '12', '100', '500', '1000 '],// hours
                     blackcold: [ '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'],      // minutes
+                    votescale: [ '100', '200', '300', '500', '1000'],
                        }
 
 // translation for additional deal actions
@@ -57,6 +58,7 @@ const enConfigLang = {
          config: 'Konfiguration',
        navfixed: 'feste Haupnavigation',
     dealvotebar: 'Zeige Deal Temperatur', 
+  dealvotescale: '100% enspicht x &deg;',
           touch: 'Touch Support aktivieren', 
          amazon: 'Mobile redirect', 
      dealaction: 'zus&auml;tzliche Deal Aktionen', 
@@ -97,7 +99,8 @@ const enConfigLang = {
       injectcss: 'Inject CSS without Stylish',
          config: 'Configuration',
        navfixed: 'Display FIXED MainNav', 
-    dealvotebar: 'Show Votebar', 
+    dealvotebar: 'Show Votebar',
+  dealvotescale: '100% is x &deg;',
           touch: 'Enable Touch Support', 
          amazon: 'Amazon mobile redirect', 
      dealaction: 'additional Deal actions', 
@@ -138,7 +141,8 @@ const enConfigLang = {
       injectcss: 'CSS zonder Stylish laden',
          config: 'Configuratie',
        navfixed: 'Display FIXED MainNav', 
-    dealvotebar: 'Toon Deal temperatuur', 
+    dealvotebar: 'Toon Deal temperatuur',
+  dealvotescale: '100% is x &deg;',
           touch: 'Activeer Touch Support', 
          amazon: 'Amazon mobile redirect', 
      dealaction: 'Bijgevoegde Deal acties', 
