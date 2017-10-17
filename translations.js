@@ -50,7 +50,7 @@ const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
 const enConfigLang = {
    de: { 
        headline: 'Enstyler - Einstellungen',
-       features: 'Erweiterte Funktionen',
+       features: 'Design &amp; Extra\'s',
       configcss: 'CSS Optionen',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
@@ -93,7 +93,7 @@ const enConfigLang = {
   
    en: {
        headline: 'Enstyler - Settings',
-       features: 'Additonal features',
+       features: 'Design &amp; Extra\'s',
       configcss: 'CSS Options',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
@@ -136,7 +136,7 @@ const enConfigLang = {
   
    nl: {
        headline: 'Enstyler - Instellingen',
-       features: 'geavanceerde functies voor Enstyler',
+       features: 'Design &amp; Extra\'s',
       configcss: 'CSS opties',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
