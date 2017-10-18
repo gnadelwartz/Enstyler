@@ -35,13 +35,13 @@ const enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }
   
 // translation for additional menu entrys
 const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
-                             enstyler: 'Enstyler Homepage', enhref: 'https://www.mydealz.de/diskussion/enstyler-856062',
+                             enstyler: 'Enstyler Homepage', enhref: 'https://dealz.rrr.de',
                              settings: 'Enstyler Einstellungen' },
                      en: { discussion: 'All discussions', // only mydealz
-                             enstyler: 'Enstyler Homepage', enhref: 'https://www.mydealz.de/diskussion/enstyler-1035447',
+                             enstyler: 'Enstyler Homepage', enhref: 'https://dealz.rrr.de/english.html',
                              settings: 'Enstyler Settings' },
                      nl: { discussion: 'All discussions', // only mydealz
-                             enstyler: 'Enstyler Homepage', enhref: 'https://www.mydealz.de/diskussion/enstyler-1035447',
+                             enstyler: 'Enstyler Homepage', enhref: 'https://dealz.rrr.de/english.html',
                              settings: 'Enstyler Instellingen' },
                    }
 
@@ -67,6 +67,8 @@ const enConfigLang = {
        dealtime: 'Zeige echte Deal Zeit', 
         mintime: 'wenn &auml;lter als x Stunden',
         fixhtml: 'fix Deal Text HTML',
+       noscript: 'Alle Pepper Scripte abschalten',
+   noscripthint: '(schneller, aber einige Funtionen fehlen!)',
       blacklist: 'Aktiviere Black- / Whitelist', 
       blackcold: 'Blacklist wenn k&auml;lter als', 
           black: 'Blacklist - Dealz, Kategorie, @Benutzer, Kommentare',
@@ -110,6 +112,8 @@ const enConfigLang = {
        dealtime: 'Show real Deal Time', 
         mintime: 'if older than Hours',
         fixhtml: 'fix Deal Text HTML',
+       noscript: 'Disable all Pepper scripts',
+   noscripthint: '(faster but some functionality is missing!)',
       blacklist: 'Enable Black- / Whitelist', 
       blackcold: 'Blacklist if colder then', 
           black: 'Blacklist - dealz, categories, @users, comments',
@@ -153,6 +157,8 @@ const enConfigLang = {
        dealtime: 'Toon echte Deal tijd aan', 
         mintime: 'zodra ouder dan x uren',
         fixhtml: 'fix Deal Text HTML',
+       noscript: 'Disable all Pepper scripts',
+   noscripthint: '(faster but some functionality is missing!)',
       blacklist: 'Activeer Black- / Whitelist',
        examples: 'p.rn, Bangood, @Admin',
       blackcold: 'Blacklist zodra ouder dan', 
