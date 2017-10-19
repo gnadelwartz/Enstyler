@@ -6,7 +6,7 @@
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
 
 // translation for site specific stuff, ie section names or text to look for actual page
-const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Seite ' },
+var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Seite ' },
                   Preisjaeger: { lang: 'de', discussion: '/diskussion/', page: 'Seite '},
                            Nl: { lang: 'en', discussion: '/discussies/', page: 'Pagina '},
                    Hotukdeals: { lang: 'en', discussion: '/discussion/', page: 'Page '},
@@ -19,7 +19,7 @@ const enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: '
                        }
 
 // translation for additional deal actions
-const enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
+var enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
                            po: 'Sag',            rem: 'Entf',                   ed: 'Bearb',        ma: 'Mail' }, // short link text for small screen
                      en: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
                            po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' }, // short link text for small screen
@@ -28,13 +28,13 @@ const enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', 
                      }
   
 // translation for deal time display  // Gestern xx:xx Uhr / vor Yh Ym (heute xx:xx Uhr) 
-const enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }, 
+var enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }, 
                      en: { oclock: 'o&acute;clock' }, //field name = english label
                      nl: { yesterday: 'Gisteren', today: 'vandaag', oclock: 'Uur' }
                      }
   
 // translation for additional menu entrys
-const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
+var enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
                              enstyler: 'Enstyler Homepage', enhref: 'https://dealz.rrr.de',
                              settings: 'Enstyler Einstellungen' },
                      en: { discussion: 'All discussions', // only mydealz
@@ -47,7 +47,7 @@ const enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
 
 
 // translation of config dialogs
-const enConfigLang = {
+var enConfigLang = {
    de: { 
        headline: 'Enstyler - Einstellungen',
        features: 'Design',
