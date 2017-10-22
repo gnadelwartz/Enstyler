@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.10.132
-// Date: 2016-10-13
+// Version: 3.10.202
+// Date: 2016-10-20
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -67,8 +67,7 @@ var enConfigLang = {
        dealtime: 'Zeige echte Deal Zeit', 
         mintime: 'wenn &auml;lter als x Stunden',
         fixhtml: 'fix Deal Text HTML',
-       noscript: 'Alle Pepper Scripte abschalten',
-   noscripthint: '(schneller, aber einige Funtionen fehlen!)',
+       noscript: 'Pepper Scripte abschalten',
       blacklist: 'Aktiviere Black- / Whitelist', 
       blackcold: 'Blacklist wenn k&auml;lter als &deg', 
           black: 'Blacklist - Dealz, Kategorie, @Benutzer, Kommentare',
