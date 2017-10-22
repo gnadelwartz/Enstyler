@@ -16,7 +16,7 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                     blackcold: [ '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'],      // minutes
                     votescale: [ '100', '200', '300', '500', '1000'], // Degree
-                       }
+                        width: [ 'off', '360', '600', '800', '900'], // Mobile width                      }
 
 // translation for additional deal actions
 var enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
@@ -60,7 +60,8 @@ var enConfigLang = {
     dealvotebar: 'Zeige Deal Temperatur', 
   dealvotescale: '100% enspricht x &deg;',
         compact: 'Listenansicht kompakter',
-          touch: 'Touch Support aktivieren', 
+          touch: 'Touch Support aktivieren',
+         mobile: 'Skaliere Smartphone auf px',
          amazon: 'Mobile redirect', 
      dealaction: 'zus&auml;tzliche Deal Aktionen', 
          picker: 'Zeige Page Picker', 
@@ -105,6 +106,7 @@ var enConfigLang = {
   dealvotescale: '100% is x &deg;',
         compact: 'List view more compact',
           touch: 'Enable Touch Support', 
+         mobile: 'Scale Smartphone to px',
          amazon: 'Mobile redirect', 
      dealaction: 'additional Deal actions', 
          picker: 'Enable Page Picker', 
@@ -148,6 +150,7 @@ var enConfigLang = {
   dealvotescale: '100% is x &deg;',
         compact: 'Lijstweergave compacter',
           touch: 'Activeer Touch Support', 
+         mobile: 'Schaal Smartphone naar px',
          amazon: 'Mobile redirect', 
      dealaction: 'Bijgevoegde Deal acties', 
          picker: 'Toon Page Picker aan', 
