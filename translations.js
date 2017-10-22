@@ -15,7 +15,7 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                      timetime: [ '0', '0.5', '1', '2', '3', '6', '12', '100', '500', '1000 '],// hours
                     blackcold: [ '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'],      // minutes
-                    votescale: [ '100', '200', '300', '500', '1000'],
+                    votescale: [ '100', '200', '300', '500', '1000'], // Degree
                        }
 
 // translation for additional deal actions
@@ -54,7 +54,7 @@ var enConfigLang = {
       configcss: 'CSS Optionen',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
-      injectcss: 'CSS ohne Stylish laden',
+      injectcss: 'CSS automatisch laden',
          config: 'Konfiguration',
        navfixed: 'feste Haupnavigation',
     dealvotebar: 'Zeige Deal Temperatur', 
@@ -182,5 +182,36 @@ var enConfigLang = {
       cssfailed: 'Het laden van <EN-LANG:configcss> wordt geweigerd door de webbrowser\n\nControleer alstublieft of userstyles.org beschikbaar is en op de witte lijst van browsers.',
     regexfailed: 'Fout in blacklist: verkeerd gebruik van "." of ","\n\nKontroleer aub. het onnodige/dubbele gebruik van "." en "," '
      }
+   }
+
+var enCofHintLang = {
+   de: { 
+      configcss: '&Auml;ndern und speichern des Designs',
+     userscript: 'Enstyler Scriipt neu laden',
+        cookies: 'Firefox Addon "Self-Destructing Cookies"',
+      injectcss: 'Es wir kein Stylish zum Laden des CSS ben&ouml;tigt',
+       navfixed: 'Men&uuml;leiste bleibt am oberen Rand sichtbar',
+    dealvotebar: 'Bringt die Temperaturanzeigef&uuml;r Dealz zur&uuml;ck ', 
+  dealvotescale: 'Skalierung der Temperaturanzeigef&uuml;r',
+        compact: 'Mehr Dealz anzeigen, kann zu Anzeigefehlern f&uuml;hren',
+          touch: 'Symbole vergrößern damit man sie besser ber&uuml;hren kann', 
+         amazon: 'Links zu Amazon Mobil öffen normale Webseite', 
+     dealaction: 'Erlaubt direkt zu Kommentieren oder Mails zu verschicken.', 
+         picker: 'Zeige Page Picker', 
+       dealtime: 'Zeige die tats&auml;iche Zeit statt "vor xh xm"', 
+        fixhtml: 'Entfernt durch Kopieren entstandene Fehler aus Dealbeschreibung ',
+       noscript: 'Es werden kein MyDaelz Scripte geladen. Schneller, aber einige Funtionen fehlen!',
+      blacklist: 'Verberge Dealz die Dich st&ouml;ren', 
+      blackcold: 'Verberge Dealz die k&auml;ter als die angebene Temperatur sind', 
+          black: 'Trenne Begriff durch "," setze "@" vor Benutzernamen, "." ist beliebiges Zeichen',
+          white: 'Trenne Begriff durch "," setze "@" vor Benutzernamen, "." ist beliebiges Zeichen', 
+        unblack: 'Anzahl ausgeblendeter Dealz, klicke um diese wieder anzuzeigen',
+           lang: 'Enstyler Anzeigesprache, aktiviert auch Google &Uuml;bersetzung!',
+       autosync: 'Synchronisiert zuletzt angesehenen Deal zwischen Ger&auml;ten',
+       synctime: 'Letzer Dealz wird nach x Minuten inaktivit&auml;t gespeichert',
+       cssdealz: 'Leitet geteilte Links auf Dealz.rrr.de um und f&uuml;gt Dein gespeichertes Design ein',
+        synckey: 'mindesttens 6stellige PIN zum Schutz Deiner Daten',
+           sync: 'L&auml; Deine zuletzt gespeicherten Einstellungen verschl&uuml;sselt von Dealz.rrr.de',
+      },
    }
 //
