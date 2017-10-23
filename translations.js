@@ -1,5 +1,5 @@
 // translations for International Enstyler Version
-// Version: 3.10.231
+// Version: 3.10.232
 // Date: 2016-10-23
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
@@ -180,19 +180,19 @@ var enConfigLang = {
 
 var enMessageLang = { // Note: HTML notation for special characters not working with hints
    de: {
-      configcss: 'Aendern und speichern des Designs',
+      configcss: 'Ändern und speichern des Designs',
      userscript: 'Enstyler Script neu laden',
         cookies: 'Firefox Addon "Self-Destructing Cookies"',
       injectcss: 'Es wir kein Stylish zum Laden des CSS benötigt',
        navfixed: 'Menüleiste bleibt am oberen Rand sichtbar',
-    dealvotebar: 'Bringt die Temperaturanzeige fuer Dealz zurueck ', 
+    dealvotebar: 'Bringt die Temperaturanzeige für Dealz zurueck ', 
   dealvotescale: 'Skalierung der Temperaturanzeige für Dealz',
         compact: 'Es können mehr Dealz pro Seite angezeigt werden, kann zu Anzeigefehlern führen',
-          touch: 'Vergrößern Symbole damit man sie besser berühren kann',
+          touch: 'Vergrößert Symbole damit man sie besser berühren kann',
           width: 'Skaliere Smartphone Anzeige auf auf ausgewählte Breite in Pixel',
          amazon: 'Links zu Amazon Mobil öffen die normale Amazon Webseite', 
      dealaction: 'Erlaubt es z.B. direkt zu Kommentieren oder Mails zu verschicken', 
-         picker: 'Fügt eien Seitenauswahl in der Menüleiste ein', 
+         picker: 'Fügt eiene Seitenauswahl in der Menüleiste hinzu', 
        dealtime: 'Zeige die tatsächliche Zeit zusätzlich zu "vor xh xm"', 
         fixhtml: 'Entfernt durch Kopieren entstandene Fehler aus Dealbeschreibung ',
        noscript: 'Es werden keine MyDaelz Scripte geladen. Schneller, aber einige Funtionen fehlen!',
@@ -205,11 +205,12 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
        autosync: 'Synchronisiert zuletzt angesehenen Deal zwischen Geräten',
        synctime: 'Letzer Deal wird nach x Minuten inaktivität gespeichert',
        cssdealz: 'Leitet geteilte Links über Dealz.rrr.de um und fügt Dein gespeichertes Design ein',
-        synckey: 'mindesttens 6stellige Verschlüsselungs-PIN zum Schutz Deiner Daten',
-           sync: 'Lade Deine zuletzt gespeicherten Einstellungen verschlüsselt von Dealz.rrr.de',
+        synckey: 'mindesttens 6-stellige Verschlüsselungs-PIN zum Schutz Deiner Daten',
+           sync: 'Lade Deine zuletzt gespeicherten Einstellungen von Dealz.rrr.de',
      // Dialog buttons
            save: 'Speichert Deine Einstellung und lädt die Seite neu',
           close: 'Verlässst die Konfiguartion ohne zu speichern',
+          reset: 'Setze Einstellungen auf Standard',
      // error messages
       cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org erreichbar und in der Liste der zugelassen Websites ist.',
     regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnoetige/mehrfache Verwendung von "." und ","' 
@@ -246,6 +247,7 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
      // Dialog buttons
            save: 'Save your settings and reload the page',
           close: 'Exits the configuration without saving',
+          reset: 'Reset settings to default',
     // error messages
       cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is avail and on the browsers whitelist.',
     regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
