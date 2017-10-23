@@ -210,7 +210,7 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
      // Dialog buttons
            save: 'Speichert Deine Einstellung und lädt die Seite neu',
           close: 'Verlässst die Konfiguartion ohne zu speichern',
-          reset: 'Setze Einstellungen auf Standard',
+          reset: 'Enstyler Einstellungen zurücksetzen',
      // error messages
       cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org erreichbar und in der Liste der zugelassen Websites ist.',
     regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnoetige/mehrfache Verwendung von "." und ","' 
@@ -247,7 +247,7 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
      // Dialog buttons
            save: 'Save your settings and reload the page',
           close: 'Exits the configuration without saving',
-          reset: 'Reset settings to default',
+          reset: 'Reset Enstler settings to default',
     // error messages
       cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is avail and on the browsers whitelist.',
     regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
