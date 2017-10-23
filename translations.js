@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.10.202
-// Date: 2016-10-20
+// Version: 3.10.231
+// Date: 2016-10-23
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -16,7 +16,7 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                     blackcold: [ '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'],      // minutes
                     votescale: [ '100', '200', '300', '500', '1000'], // Degree
-                        width: [ 'off', '360', '480', '600', '720', '860', '1000'], // Mobile width
+                        width: [ 'off', '360', '420', '500', '600', '720', '860', '1024'], // Mobile width
                   }
 
 // translation for additional deal actions
@@ -90,8 +90,6 @@ var enConfigLang = {
        howtocss: 'Zum Beibehalten der CSS Optionen "<EN-LANG:save>" klicken ',
         options: 'Optionen speichern',
      optnotsave: 'Klicken zum Speichern der Optionen!',
-      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pr&uuml;fen sie das userstyles.org erreichbar und in der Liste der zugelassen Websites ist.',
-    regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pr&uumlfen sie die unn&ouml;tige/mehrfache Verwendung von "." und ","'
       },
   
    en: {
@@ -134,8 +132,6 @@ var enConfigLang = {
        howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
         options: 'Save options',
      optnotsave: 'Klick to save Options!',
-      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is avail and on the browsers whitelist.',
-    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
        },
   
    nl: {
@@ -179,13 +175,11 @@ var enConfigLang = {
        howtocss: 'CSS opties handhaven door "<EN-LANG:save>" te klikken',
         options: 'Opties opslaan',
      optnotsave: 'Klik om opties op te slaan!',
-      cssfailed: 'Het laden van <EN-LANG:configcss> wordt geweigerd door de webbrowser\n\nControleer alstublieft of userstyles.org beschikbaar is en op de witte lijst van browsers.',
-    regexfailed: 'Fout in blacklist: verkeerd gebruik van "." of ","\n\nKontroleer aub. het onnodige/dubbele gebruik van "." en "," '
      }
    }
 
-var enCofHintLang = { // Note: HTML notation for special characters not working with hints
-   de: { 
+var enMessageLang = { // Note: HTML notation for special characters not working with hints
+   de: {
       configcss: 'Aendern und speichern des Designs',
      userscript: 'Enstyler Script neu laden',
         cookies: 'Firefox Addon "Self-Destructing Cookies"',
@@ -213,9 +207,13 @@ var enCofHintLang = { // Note: HTML notation for special characters not working 
        cssdealz: 'Leitet geteilte Links auf Dealz.rrr.de um und fuegt Dein gespeichertes Design ein',
         synckey: 'mindesttens 6stellige PIN zum Schutz Deiner Daten',
            sync: 'Lade Deine zuletzt gespeicherten Einstellungen verschluesselt von Dealz.rrr.de',
+     // error messages
+      cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org erreichbar und in der Liste der zugelassen Websites ist.',
+    regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnoetige/mehrfache Verwendung von "." und ","' 
       },
   en: { 
-      configcss: 'Change and save the theme',
+     // tooltips for config
+    configcss: 'Change and save the theme',
      userscript: 'Enstyler Reload Script',
         cookies: 'Firefox Addon "Self-Destructing Cookies"',
       injectcss: 'We do not need Stylish to load the CSS',
@@ -242,6 +240,9 @@ var enCofHintLang = { // Note: HTML notation for special characters not working 
        cssdealz: 'Redirects shared links to Dealz.rrr.de and injects your saved design',
         synckey: 'at least 6-digit PIN to protect your data',
            sync: 'Load vour most recent settings encrypted from Dealz.rrr.de ',
+     // error messages
+      cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is avail and on the browsers whitelist.',
+    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
       },
    }
 //
