@@ -205,7 +205,7 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
        autosync: 'Synchronisiert zuletzt angesehenen Deal zwischen Geräten',
        synctime: 'Letzer Deal wird nach x Minuten inaktivität gespeichert',
        cssdealz: 'Leitet geteilte Links über Dealz.rrr.de um und fügt Dein gespeichertes Design ein',
-        synckey: 'mindesttens 6-stellige Verschlüsselungs-PIN zum Schutz Deiner Daten',
+        synckey: 'mindestens 6-stellige Verschlüsselungs-PIN zum Schutz Deiner Daten',
            sync: 'Lade Deine zuletzt gespeicherten Einstellungen von Dealz.rrr.de',
      // Dialog buttons
            save: 'Speichert Deine Einstellung und lädt die Seite neu',
