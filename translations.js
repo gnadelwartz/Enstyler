@@ -16,7 +16,7 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                     blackcold: [ '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'],      // minutes
                     votescale: [ '100', '200', '300', '500', '1000'], // Degree
-                        width: [ 'off', '360', '420', '500', '600', '720', '860', '1024', '1280', '1400', '1600'], // Mobile width
+                        width: [ 'off', '360', '420', '500', '600', '720', '860', '1024', '1280', '1400', '1600', '1900', '2500'], // Mobile width
                   }
 
 // translation for additional deal actions
@@ -56,6 +56,7 @@ var enConfigLang = {
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
       injectcss: 'CSS automatisch laden',
+            max: 'Breite der Dealanzeige',
          config: 'Konfiguration',
        navfixed: 'feste Haupnavigation',
     dealvotebar: 'Zeige Deal Temperatur', 
@@ -99,6 +100,7 @@ var enConfigLang = {
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
       injectcss: 'Load CSS automatically',
+            max: 'Display witdh for dealz',
          config: 'Configuration',
        navfixed: 'Display FIXED MainNav', 
     dealvotebar: 'Show Votebar',
@@ -141,6 +143,7 @@ var enConfigLang = {
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
       injectcss: 'Laad automatisch CSS in',
+            max: 'Breedte de Deal display',
          config: 'Configuratie',
        navfixed: 'Display FIXED MainNav', 
     dealvotebar: 'Toon Deal temperatuur',
@@ -183,7 +186,8 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
       configcss: 'Ändern und speichern des Designs',
      userscript: 'Enstyler Script neu laden',
         cookies: 'Firefox Addon "Self-Destructing Cookies"',
-      injectcss: 'Es wir kein Stylish zum Laden des CSS benötigt',
+      injectcss: 'Die Einstellungen aus CSS Optionen werden geladen, Du kannst aber auch Stylish zu nutzen',
+            max: 'Maximale Breite der Dealz Anzeige, Standard ist 960px',
        navfixed: 'Menüleiste bleibt am oberen Rand sichtbar',
     dealvotebar: 'Bringt die Temperaturanzeige für Dealz zurueck ', 
   dealvotescale: 'Skalierung der Temperaturanzeige für Dealz',
@@ -220,7 +224,8 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
     configcss: 'Change and save the theme',
      userscript: 'Reload Enstyler Script',
         cookies: 'Firefox Addon "Self-Destructing Cookies"',
-      injectcss: 'We do not need Stylish to load the CSS',
+      injectcss: 'The settings from CSS options are loaded, but you can also use Stylish',
+            max: 'Maximum width of Dealz area, standard is 960px',
        navfixed: 'Menu remains visible at the top',
     dealvotebar: 'Return the temperature display for Dealz',
   dealvotescale: 'Scaling of the temperature display for Dealz',
