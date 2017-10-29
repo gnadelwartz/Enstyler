@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.10.161
-// Date: 2016-10-26
+// Version: 3.10.291
+// Date: 2016-10-29
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -63,6 +63,7 @@ var enConfigLang = {
     dealvotebar: 'Zeige Deal Temperatur', 
   dealvotescale: '100% enspricht x &deg;',
         compact: 'Listenansicht kompakter',
+      dealprice: 'Preis im Deal Button',
           touch: 'Touch Support aktivieren',
           width: 'Skaliere Smartphone auf',
          amazon: 'Mobile redirect', 
@@ -106,6 +107,7 @@ var enConfigLang = {
        navfixed: 'Display FIXED MainNav', 
     dealvotebar: 'Show Votebar',
   dealvotescale: '100% is x &deg;',
+      dealprice: 'Price in Deal Button',
         compact: 'List view more compact',
           touch: 'Enable Touch Support', 
           width: 'Scale Smartphone to px',
@@ -150,6 +152,7 @@ var enConfigLang = {
     dealvotebar: 'Toon Deal temperatuur',
   dealvotescale: '100% is x &deg;',
         compact: 'Lijstweergave compacter',
+      dealprice: 'Prijs in Deal Button',
           touch: 'Activeer Touch Support', 
           width: 'Schaal Smartphone naar px',
          amazon: 'Mobile redirect', 
@@ -204,7 +207,7 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
       blacklist: 'Verberge Dealz die bestimmte Begriffe enthalten', 
       blackcold: 'Verberge Dealz die kälter als die angebene Temperatur sind', 
           black: 'Trenne Begriff durch "," setze "@" vor Benutzernamen, "." ist beliebiges Zeichen',
-          white: 'Trenne Begriff durch "," setze "@" vor Benutzernamen, "." ist beliebiges Zeichen', 
+          white: 'Weitere Platzhalter: "\b" Wortanfang/ende, "\d" Ziffer, "\s" Leerzeichen', 
         unblack: 'Anzahl ausgeblendeter Dealz, klicke um diese wieder anzuzeigen',
            lang: 'Enstyler Anzeigesprache, aktiviert auch Google Übersetzung!',
        autosync: 'Synchronisiert zuletzt angesehenen Deal zwischen Geräten',
@@ -242,7 +245,7 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
       blacklist: 'Hide Dealz containing given terms',
       blackcold: 'Hide Dealz which temperature is higher than the one specified ',
           black: 'Separate the terms by "," put "@" before users, "." is any character',
-          white: 'Separate the terms by "," put "@" before users, "." is any character',
+          white: 'Other placeholders: "\b" start/end of word, "\d" digit, "\s" space',
         unblack: 'Number of exposed Dealz, click to re-display',
            lang: 'Enstyler display language, also activates Google translation!',
        autosync: 'Synchronize last viewed deal between devices',
