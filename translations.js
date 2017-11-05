@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.10.291
-// Date: 2016-10-29
+// Version: 3.11.051
+// Date: 2016-11-05
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -76,7 +76,6 @@ var enConfigLang = {
       blacklist: 'Aktiviere Black- / Whitelist', 
       blackcold: 'Blacklist wenn k&auml;lter als &deg', 
           black: 'Blacklist - Dealz, Kategorie, @Benutzer, Kommentare',
-       examples: 'G.steklo, Bangood, @Admin',
           white: 'Whitelist', 
         unblack: 'Entferne von Blacklist:',
            lang: 'Enstyler Sprache w&auml;hlen',
@@ -120,7 +119,6 @@ var enConfigLang = {
       blacklist: 'Enable Black- / Whitelist', 
       blackcold: 'Blacklist if colder then &deg', 
           black: 'Blacklist - dealz, categories, @users, comments',
-       examples: 'p.rn, Bangood, @Admin',
           white: 'Whitelist', 
         unblack: 'Remove from blacklist:',
            lang: 'Select Enstyler Language',
@@ -163,7 +161,6 @@ var enConfigLang = {
         fixhtml: 'Fix deal tekst HTML',
        noscript: 'Schakel Pepper Scripts uit',
       blacklist: 'Activeer Black- / Whitelist',
-       examples: 'p.rn, Bangood, @Admin',
       blackcold: 'Blacklist zodra ouder dan', 
           black: 'Blacklist - dealz, categorie, @gebruiker, commentaren', 
           white: 'Whitelist', 
@@ -207,7 +204,7 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
        noscript: 'Es werden keine MyDaelz Scripte geladen. Schneller, aber einige Funtionen fehlen!',
       blacklist: 'Verberge Dealz die bestimmte Begriffe enthalten', 
       blackcold: 'Verberge Dealz die kälter als die angebene Temperatur sind', 
-          black: 'Trenne Begriff durch "," setze "@" vor Benutzernamen, "." ist beliebiges Zeichen',
+          black: 'Trenne Begriff durch "," setze "@" vor Benutzernamen, "." ist beliebiges Zeichen, z.B. G.steklo, Bangood, @Admin',
           white: 'Weitere Platzhalter: "\\b" Wortanfang/ende, "\\d" Ziffer, "\\s" Leerzeichen', 
         unblack: 'Anzahl ausgeblendeter Dealz, klicke um diese wieder anzuzeigen',
            lang: 'Enstyler Anzeigesprache, aktiviert auch Google Übersetzung!',
@@ -246,7 +243,7 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
        noscript: 'No MyDaelz scripts are loaded. Faster, but some funtions are missing! ',
       blacklist: 'Hide Dealz containing given terms',
       blackcold: 'Hide Dealz which temperature is higher than the one specified ',
-          black: 'Separate the terms by "," put "@" before users, "." is any character',
+          black: 'Separate the terms by "," put "@" before users, "." is any character, eg P.rn, Bangood, @Admin',
           white: 'Other placeholders: "\\b" start/end of word, "\\d" digit, "\\s" space',
         unblack: 'Number of exposed Dealz, click to re-display',
            lang: 'Enstyler display language, also activates Google translation!',
