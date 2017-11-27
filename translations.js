@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 3.11.051
-// Date: 2016-11-05
+// Version: 3.11.271
+// Date: 2016-11-27
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -13,7 +13,7 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                    Userstyles: { lang: 'de' },
                     languages: [ 'auto','de','en','nl','fr','es','be','it','ro' ],
                      timetime: [ '0', '0.5', '1', '2', '3', '6', '12', '100', '500', '1000 '],// hours
-                    blackcold: [ '60','30','20','20','10,''5', '0', '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
+                    blackcold: [ '60','30','20','10','5', '0', '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'],      // minutes
                     votescale: [ '100', '200', '300', '500', '1000'], // Degree
                         width: [ 'off', '360', '420', '500', '600', '720', '860', '1024', '1280', '1400', '1600', '1900', '2500', '9999'], // Mobile width
