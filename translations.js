@@ -13,21 +13,20 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                    Userstyles: { lang: 'de' },
                     languages: [ 'auto','de','en','nl','fr','es','be','it','ro' ],
                      timetime: [ '0', '0.5', '1', '2', '3', '6', '12', '100', '500', '1000 '],// hours
-                    blackcold: [ '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
+                    blackcold: [ '60','30','20','20','10,''5', '0', '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'],      // minutes
                     votescale: [ '100', '200', '300', '500', '1000'], // Degree
-                        width: [ 'off', '360', '420', '500', '600', '720', '860', '1024'], // Mobile width
-                          max: [ 'off', '1280', '1400', '1600', '1900', '2500', '9999'], // Deal max width
+                        width: [ 'off', '360', '420', '500', '600', '720', '860', '1024', '1280', '1400', '1600', '1900', '2500', '9999'], // Mobile width
                   }
 
 // translation for additional deal actions
 var enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
-                           po: 'Sag',            rem: 'Entf',                   ed: 'Bearb',        ma: 'Mail' }, // short link text for small screen
-                     en: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
-                           po: 'post',             rem: 'remove',              ed: 'edit',   ma: 'mail' }, // short link text for small screen
-                     nl: { post: 'Geef een commentaar', remove: 'Van de lijst schrappen', edit: 'Bewerken', mail: 'Per e-mail sturen',
-                           po: 'Geef',             rem: 'Verwijderen',              ed: 'Bewerken',   ma: 'Mail' } // short link text for small screen
-                     }
+                         exp: 'Als abgelaufen melden' },
+                   en: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
+                         exp: 'Report as expired' },
+                   nl: { post: 'Geef een commentaar', remove: 'Van de lijst schrappen', edit: 'Bewerken', mail: 'Per e-mail sturen',
+                         exp: 'Rapporteer als verlopen' },
+                 }
   
 // translation for deal time display  // Gestern xx:xx Uhr / vor Yh Ym (heute xx:xx Uhr) 
 var enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }, 
