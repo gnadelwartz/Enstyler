@@ -90,7 +90,6 @@ var enConfigLang = {
         savecss: 'Deine ausgewählten CSS Optionen',
        howtocss: 'Zum Beibehalten der CSS Optionen "<EN-LANG:save>" klicken ',
         options: 'Optionen speichern',
-     optnotsave: 'Klicken zum Speichern der Optionen!',
       },
   
    en: {
@@ -133,7 +132,6 @@ var enConfigLang = {
         savecss: 'Your selected CSS options',
        howtocss: 'To store your CSS options klick "<EN-LANG:save>" ',
         options: 'Save options',
-     optnotsave: 'Klick to save Options!',
        },
   
    nl: {
@@ -177,7 +175,6 @@ var enConfigLang = {
         savecss: 'Uw selecteerde CSS opties',
        howtocss: 'CSS opties handhaven door "<EN-LANG:save>" te klikken',
         options: 'Opties opslaan',
-     optnotsave: 'Klik om opties op te slaan!',
      }
    }
 
