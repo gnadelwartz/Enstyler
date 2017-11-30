@@ -51,7 +51,6 @@ var enMenuLang = { de: { discussion: 'Alle Diskussionen', // only mydealz
 var enConfigLang = {
    de: { 
        headline: 'Enstyler - Einstellungen',
-       features: 'Design',
       configcss: 'CSS Optionen',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
@@ -65,7 +64,7 @@ var enConfigLang = {
           price: 'Preis im Deal Button',
           touch: 'Touch Support aktivieren',
           width: 'Skaliere Smartphone auf',
-         amazon: 'Mobile redirect', 
+          redir: 'Mobile redirect', 
      dealaction: 'zus&auml;tzliche Deal Aktionen', 
          picker: 'Zeige Page Picker', 
        dealtime: 'Zeige echte Deal Zeit', 
@@ -94,7 +93,6 @@ var enConfigLang = {
   
    en: {
        headline: 'Enstyler - Settings',
-       features: 'Design',
       configcss: 'CSS Options',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
@@ -108,7 +106,7 @@ var enConfigLang = {
         compact: 'List view more compact',
           touch: 'Enable Touch Support', 
           width: 'Scale Smartphone to px',
-         amazon: 'Mobile redirect', 
+          redir: 'Mobile redirect', 
      dealaction: 'additional Deal actions', 
          picker: 'Enable Page Picker', 
        dealtime: 'Show real Deal Time', 
@@ -136,7 +134,6 @@ var enConfigLang = {
   
    nl: {
        headline: 'Enstyler - Instellingen',
-       features: 'Design',
       configcss: 'CSS opties',
      userscript: 'Update Enstyler',
         cookies: 'No Cookies',
@@ -150,7 +147,7 @@ var enConfigLang = {
           price: 'Prijs in Deal Button',
           touch: 'Activeer Touch Support', 
           width: 'Schaal Smartphone naar px',
-         amazon: 'Mobile redirect', 
+          redir: 'Mobile redirect', 
      dealaction: 'Bijgevoegde Deal acties', 
          picker: 'Toon Page Picker aan', 
        dealtime: 'Toon echte Deal tijd aan', 
