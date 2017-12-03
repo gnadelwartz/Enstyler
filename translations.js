@@ -12,7 +12,6 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                    Hotukdeals: { lang: 'en', discussion: '/discussion/', page: 'Page '},
                    Userstyles: { lang: 'de' },
                     languages: [ 'auto','de','en','nl','fr','es','it','ro' ],
-                     timetime: [ '0', '0.5', '1', '2', '3', '6', '12', '100', '500', '1000 '],// hours
                     blackcold: [ '60','30','20','10','5', '0', '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'], // minutes
                     votescale: [ 'off', '100', '200', '300', '500', '700', '1000'], // Degree
