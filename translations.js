@@ -12,7 +12,7 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                    Hotukdeals: { lang: 'en', discussion: '/discussion/', page: 'Page '},
                    Userstyles: { lang: 'de' },
                     languages: [ 'auto','de','en','nl','fr','es','it','ro' ],
-                    blackcold: [ '60','30','20','10','5', '0', '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
+                    blackcold: [ 'off', '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'], // minutes
                     votescale: [ 'off', '100', '200', '300', '500', '700', '1000'], // Degree
                         width: [ 'off', '360', '420', '500', '600', '720', '860', '1024', '1280', '1400', '1600', '1900', '2500', '9999'], // Mobile width
