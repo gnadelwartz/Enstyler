@@ -13,7 +13,6 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                    Userstyles: { lang: 'de' },
                     languages: [ 'auto','de','en','nl','fr','es','it','ro' ],
                     blackcold: [ 'off', '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
-                    synctimes: [ '5', '10', '20', '30', '60', '120', '1000', '10000'], // minutes
                     votescale: [ 'off', '100', '200', '300', '500', '700', '1000'], // Degree
                         width: [ 'off', '360', '420', '500', '600', '720', '860', '1024', '1280', '1400', '1600', '1900', '2500', '9999'], // Mobile width
                   }
@@ -78,7 +77,6 @@ var enConfigLang = {
        cssdealz: 'CSS in Mail Link einf&uuml;gen',
         synckey: 'SyncID (6+ Zeichen / \'off\')',
            sync: 'Synchronisieren',
-       synctime: 'nach x Minuten',
            save: 'Speichern',
           close: 'Schlie&szlig;en',
        // Enstler CSS Config
@@ -116,7 +114,6 @@ var enConfigLang = {
        cssdealz: 'Inject CSS in shared Link',
         synckey: 'SyncID (6+ char. or \'off\')',
            sync: 'Synchonize',
-       synctime: 'after x minutes',
            save: 'Save',
           close: 'Close',
        // Enstler CSS Config
@@ -155,7 +152,6 @@ var enConfigLang = {
        cssdealz: 'Spuit CSS in gedeelde link',
         synckey: 'SyncID (6+ laders / \'off\')',
            sync: 'Synchoniseren',
-       synctime: 'na x minuten',
            save: 'Opslaan',
           close: 'Sluiten',
        // Enstler CSS Config
@@ -189,7 +185,6 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
         unblack: 'Anzahl ausgeblendeter Dealz, klicke um diese wieder anzuzeigen',
            lang: 'Enstyler Anzeigesprache, aktiviert auch Google Übersetzung!',
        autosync: 'Synchronisiert zuletzt angesehenen Deal zwischen Geräten',
-       synctime: 'Letzer Deal wird nach x Minuten inaktivität gespeichert',
        cssdealz: 'Leitet geteilte Links über Dealz.rrr.de um und fügt Dein gespeichertes Design ein',
         synckey: 'mindestens 6-stellige Verschlüsselungs-PIN zum Schutz Deiner Daten',
            sync: 'Lade Deine zuletzt gespeicherten Einstellungen von Dealz.rrr.de',
@@ -225,7 +220,6 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
         unblack: 'Number of exposed Dealz, click to re-display',
            lang: 'Enstyler display language, also activates Google translation!',
        autosync: 'Synchronize last viewed deal between devices',
-       synctime: 'Last Dealz is stored after x minutes of inactive time',
        cssdealz: 'Redirects shared links to Dealz.rrr.de and injects your saved design',
         synckey: 'Enster at least 6-digit PIN to protect your data',
            sync: 'Load vour most recent settings from Dealz.rrr.de ',
