@@ -76,7 +76,7 @@ var enConfigLang = {
        autosync: 'Autosync letzter Deal',
        cssdealz: 'CSS in Mail Link einf&uuml;gen',
         synckey: 'SyncID (6+ Zeichen / \'off\')',
-           sync: 'Lade Einstellungen:',
+           sync: 'Lade Konfig:',
            save: 'Speichern',
           close: 'Schlie&szlig;en',
        // Enstler CSS Config
