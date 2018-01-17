@@ -76,7 +76,7 @@ var enConfigLang = {
        autosync: 'Autosync letzter Deal',
        cssdealz: 'CSS in Mail Link einf&uuml;gen',
         synckey: 'SyncID (6+ Zeichen / \'off\')',
-           sync: 'Lade:',
+           sync: 'Lade Einstellungen:',
            save: 'Speichern',
           close: 'Schlie&szlig;en',
        // Enstler CSS Config
@@ -113,7 +113,7 @@ var enConfigLang = {
        autosync: 'Autosync last deal',
        cssdealz: 'Inject CSS in shared Link',
         synckey: 'SyncID (6+ char. or \'off\')',
-           sync: 'Load:',
+           sync: 'Load config:',
            save: 'Save',
           close: 'Close',
        // Enstler CSS Config
@@ -151,7 +151,7 @@ var enConfigLang = {
        autosync: 'Autosync laatste Deal',
        cssdealz: 'Spuit CSS in gedeelde link',
         synckey: 'SyncID (6+ laders / \'off\')',
-           sync: 'Laad:',
+           sync: 'Laad instellingen:',
            save: 'Opslaan',
           close: 'Sluiten',
        // Enstler CSS Config
