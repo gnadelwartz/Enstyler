@@ -18,11 +18,11 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                   }
 
 // translation for additional deal actions
-var enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'Mail versenden',
+var enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'e-Mail',
                          exp: 'Als abgelaufen melden' },
-                   en: { post: 'post a comment', remove: 'remove from list', edit: 'edit', mail: 'send as mail',
+                   en: { post: 'Post a comment', remove: 'Remove from list', edit: 'Edit', mail: 'eMail',
                          exp: 'Report as expired' },
-                   nl: { post: 'Geef een commentaar', remove: 'Van de lijst schrappen', edit: 'Bewerken', mail: 'Per e-mail sturen',
+                   nl: { post: 'Geef een commentaar', remove: 'Van de lijst schrappen', edit: 'Bewerken', mail: 'e-Mail',
                          exp: 'Rapporteer als verlopen' },
                  }
   
