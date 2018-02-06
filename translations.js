@@ -14,7 +14,7 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
                     languages: [ 'auto','de','en','nl','fr','es','it','ro' ],
                     blackcold: [ 'off', '-5', '-10', '-20', '-30', '-60', '-120', '-200', '-1000'], // colder
                     votescale: [ 'off', '100', '200', '300', '500', '700', '1000'], // Degree
-                        width: [ 'off', '360', '420', '500', '600', '720', '860', '1024', '1280', '1400', '1600', '1900', '2500', '9999'], // Mobile width
+                        width: [ 'off', '360', '420', '500', '600', '720', '860', '1024', '1200', '1450', '1680', '1900', '2500', '9999'], // Mobile width
                   }
 
 // translation for additional deal actions
