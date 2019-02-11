@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 4.02.201
-// Date: 2018-02-20
+// Version: 4.02.111
+// Date: 2019-02-11
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
