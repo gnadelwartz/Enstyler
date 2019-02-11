@@ -194,8 +194,10 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
           reset: 'Enstyler Einstellungen zurücksetzen',
      // error messages
       cssfailed: 'Laden der <EN-LANG:configcss> wurde vom Browser verweigert\n\nBitte pruefen sie das userstyles.org erreichbar und in der Liste der zugelassen Websites ist.',
-    regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnoetige/mehrfache Verwendung von "." und ","' 
-      },
+    regexfailed: 'Fehler in Blacklist: Falsche Verwendung von "." oder ","\n\nBitte bitte pruefen sie die unnoetige/mehrfache Verwendung von "." und ","',
+     //misc
+  commentsearch: 'Kommentarsuche'
+       },
   en: { 
      // tooltips for config
     configcss: 'Change and save the theme',
@@ -229,7 +231,9 @@ var enMessageLang = { // Note: HTML notation for special characters not working 
           reset: 'Reset Enstler settings to default',
     // error messages
       cssfailed: 'loading <EN-LANG:configcss> was denied by your browser\n\nplease check if userstyles.org is avail and on the browsers whitelist.',
-    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters'
+    regexfailed: 'Error in blacklist: wrong usage of "." or ","\n\ncheck for unneeded/double usage of "." and "," characters',
+     //misc
+  commentsearch: 'Search Comments'
       },
    }
 //
