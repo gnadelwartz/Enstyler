@@ -1,6 +1,6 @@
 // translations for International Enstyler Version
-// Version: 4.02.111
-// Date: 2019-02-11
+// Version: 4.02.181
+// Date: 2019-02-18
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
 // Note: to reference an existing string in the same array use <EN-LANG:identifer>
@@ -19,11 +19,11 @@ var enSiteConfig= { Mydealz: { lang: 'de', discussion: '/diskussion/', page: 'Se
 
 // translation for additional deal actions
 var enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', edit: 'Bearbeiten', mail: 'e-Mail',
-                         exp: 'Als abgelaufen melden', commentsearch: 'Kommentarsuche' },
+                         exp: 'Als abgelaufen melden', commentsearch: 'Kommentarsuche', telegram: 'Telegram' },
                    en: { post: 'Post a comment', remove: 'Remove from list', edit: 'Edit', mail: 'eMail',
-                         exp: 'Report as expired', commentsearch: 'Search Comments' },
+                         exp: 'Report as expired', commentsearch: 'Search Comments', telegram: 'Telegram' },
                    nl: { post: 'Geef een commentaar', remove: 'Van de lijst schrappen', edit: 'Bewerken', mail: 'e-Mail',
-                         exp: 'Rapporteer als verlopen',commentsearch: 'Search Comments' },
+                         exp: 'Rapporteer als verlopen',commentsearch: 'Search Comments', telegram: 'Telegram' },
                  }
   
 // translation for deal time display  // Gestern xx:xx Uhr / vor Yh Ym (heute xx:xx Uhr) 
