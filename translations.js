@@ -28,7 +28,7 @@ var enDealLang = { de: { post: 'Sag was dazu', remove: 'Von Liste entfernen', ed
   
 // translation for deal time display  // Gestern xx:xx Uhr / vor Yh Ym (heute xx:xx Uhr) 
 var enTimeLang = { de: { yesterday: 'Gestern', today: 'heute', oclock: 'Uhr' }, 
-                     en: { oclock: 'o&acute;clock' }, //field name = english label
+                     en: { oclock: 'o clock' }, //field name = english label
                      nl: { yesterday: 'Gisteren', today: 'vandaag', oclock: 'Uur' }
                      }
   
