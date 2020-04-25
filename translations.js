@@ -1,5 +1,5 @@
 // translations for International Enstyler Version
-// Version: 4.02.181
+// Version: 4.04.521
 // Date: 2019-02-18
 // (c) Gnadelwartz kay@rrr.de
 // Note: use HTML notation for special characters, i.e. ü -> &uuml;
